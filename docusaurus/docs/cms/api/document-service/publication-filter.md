@@ -103,12 +103,12 @@ Strapi internals refer to the groups of documents these values select as *public
 | ---------- | ------------------ | ----------------------------- | ------------ |
 | Find drafts never published in a given locale | `draft` | `never-published` | [Quick example](#quick-example) |
 | Find the newer drafts of entries modified since their last publication | `draft` | `modified` | [Modified documents](#modified) |
+| Find drafts of documents never published in any locale | `draft` | `never-published-document` | [Documents never published in any locale](#document-scoped) |
 | Find the currently-live version of those same modified entries | `published` | `modified` | [Modified documents](#modified) |
-| Find drafts that have not changed since their last publication | `draft` or `published` | `unmodified` | – |
-| Find entries that have both a draft and a published version | `draft` or `published` | `has-published-version` | – |
 | Find published entries that have no draft counterpart | `published` | `published-without-draft` | [Published entries without a draft](#published-without-draft-example) |
 | Find published entries that also have a draft | `published` | `published-with-draft` | [Published entries with a draft](#published-with-draft-example) |
-| Find drafts of documents never published in any locale | `draft` | `never-published-document` | [Documents never published in any locale](#document-scoped) |
+| Find drafts that have not changed since their last publication | `draft` or `published` | `unmodified` | – |
+| Find entries that have both a draft and a published version | `draft` or `published` | `has-published-version` | – |
 | Find documents published in at least one locale | `draft` or `published` | `has-published-version-document` | – |
 | Check whether one specific document matches a value (with `findOne()` or `findFirst()`) | `draft` or `published` | any value | [Use with findOne() and findFirst()](#find-one-find-first) |
 | Count only the documents that match a value (with `count()`) | `draft` or `published` | any value | [Count only matching documents](#count) |
