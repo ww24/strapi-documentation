@@ -48,8 +48,8 @@ To read the drafts that have never been published, pass:
     {
       label: 'JavaScript',
       code: `await strapi.documents('api::restaurant.restaurant').findMany({
-    status: 'draft',
-    publicationFilter: 'never-published',
+  status: 'draft',
+  publicationFilter: 'never-published',
 });`
     }
   ]}
@@ -57,15 +57,15 @@ To read the drafts that have never been published, pass:
     {
       status: 200,
       statusText: 'OK',
-  body: `[
-    {
-      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-      name: "New Restaurant",
-      publishedAt: null,
-      locale: "en", // default locale
-      // …
-    }
+      body: `[
+  {
+    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+    name: "New Restaurant",
+    publishedAt: null,
+    locale: "en", // default locale
     // …
+  }
+  // …
 ]`
     }
   ]}
@@ -97,7 +97,7 @@ Values ending in `-document` consider all locales of a document, which matters w
 Strapi internals refer to the groups of documents these values select as *publication cohorts*, but you never need that term to use the API.
 :::
 
-## Use cases {#use-cases}
+## Possible use cases {#use-cases}
 
 | I want to… | Parameters | Full example |
 | ---------- | ---------- | ------------ |
@@ -117,7 +117,9 @@ Strapi internals refer to the groups of documents these values select as *public
 Pairing a value with the opposite `status` from the table above is valid but returns no rows rather than an error: for example, `never-published` with `status: 'published'` returns an empty result, because these documents have no published row yet.
 :::
 
-## Modified documents {#modified}
+## Examples
+
+### Modified documents {#modified}
 
 `modified` selects documents whose draft was edited since it was last published (the draft row's `updatedAt` is more recent than the published row's). The example below returns their newer draft rows; pass `status: 'published'` instead to return the currently-live published version of those same documents.
 
@@ -153,7 +155,7 @@ Pairing a value with the opposite `status` from the table above is valid but ret
   ]}
 />
 
-## Documents never published in any locale {#document-scoped}
+### Documents never published in any locale {#document-scoped}
 
 `never-published-document` considers all locales, so a multi-locale document with even one published locale is excluded entirely, including its draft-only locales:
 
@@ -189,7 +191,7 @@ Pairing a value with the opposite `status` from the table above is valid but ret
   ]}
 />
 
-## Published entries without a draft {#published-without-draft-example}
+### Published entries without a draft {#published-without-draft-example}
 
 `published-without-draft` describes published rows, so it requires `status: 'published'`:
 
@@ -225,7 +227,7 @@ Pairing a value with the opposite `status` from the table above is valid but ret
   ]}
 />
 
-## Published entries with a draft {#published-with-draft-example}
+### Published entries with a draft {#published-with-draft-example}
 
 `published-with-draft` also describes published rows and requires `status: 'published'`:
 
@@ -261,7 +263,7 @@ Pairing a value with the opposite `status` from the table above is valid but ret
   ]}
 />
 
-## Use with `findOne()` and `findFirst()` {#find-one-find-first}
+### Use with `findOne()` and `findFirst()` {#find-one-find-first}
 
 If the requested document (and locale, when applicable) does not match the filter, `findOne()` and `findFirst()` return `null` even when the `documentId` exists:
 
@@ -289,7 +291,7 @@ If the requested document (and locale, when applicable) does not match the filte
   ]}
 />
 
-## Count only matching documents {#count}
+### Count only matching documents {#count}
 
 Without `publicationFilter`, `count({ status: 'draft' })` counts every draft row, including drafts whose document already has a published version. Add `publicationFilter` to count only the documents that match a given value (see the [`status` documentation](/cms/api/document-service/status#count)):
 
@@ -302,10 +304,10 @@ const neverPublishedCount = await strapi
   });
 ```
 
-## Combine with other parameters {#combine}
+### Combine with other parameters {#combine}
 
 `publicationFilter` is combined with other query parameters as a logical `AND`, including [`filters`](/cms/api/document-service/filters) and [`populate`](/cms/api/document-service/populate). When populating draft & publish relations, nested queries inherit the same filter logic.
 
-## Content Manager mapping {#content-manager}
+### Content Manager mapping {#content-manager}
 
 In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`). Other Status filter options use internal APIs rather than public `publicationFilter` values.
