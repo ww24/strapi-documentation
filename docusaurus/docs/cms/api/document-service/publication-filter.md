@@ -107,9 +107,9 @@ Strapi internals refer to the groups of documents these values select as *public
 | Find the currently-live version of those same modified entries | `published` | `modified` | [Modified documents](#modified) |
 | Find published entries that have no draft counterpart | `published` | `published-without-draft` | [Published entries without a draft](#published-without-draft-example) |
 | Find published entries that also have a draft | `published` | `published-with-draft` | [Published entries with a draft](#published-with-draft-example) |
-| Find drafts that have not changed since their last publication | `draft` or `published` | `unmodified` | – |
-| Find entries that have both a draft and a published version | `draft` or `published` | `has-published-version` | – |
-| Find documents published in at least one locale | `draft` or `published` | `has-published-version-document` | – |
+| Find drafts that have not changed since their last publication | `draft` or `published` | `unmodified` | [Unmodified entries](#unmodified-example) |
+| Find entries that have both a draft and a published version | `draft` or `published` | `has-published-version` | [Entries with a published version](#has-published-version-example) |
+| Find documents published in at least one locale | `draft` or `published` | `has-published-version-document` | [Documents published in at least one locale](#has-published-version-document-example) |
 | Check whether one specific document matches a value (with `findOne()` or `findFirst()`) | `draft` or `published` | any value | [Use with findOne() and findFirst()](#find-one-find-first) |
 | Count only the documents that match a value (with `count()`) | `draft` or `published` | any value | [Count only matching documents](#count) |
 
@@ -255,6 +255,114 @@ Pairing a value with the opposite `status` from the table above is valid but ret
     name: "Biscotte Restaurant",
     publishedAt: "2024-03-14T15:40:45.330Z",
     locale: "en", // default locale
+    // …
+  }
+  // …
+]`
+    }
+  ]}
+/>
+
+### Entries with a published version {#has-published-version-example}
+
+`has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). It returns rows with either `status`; the example below returns the draft rows.
+
+<Endpoint
+  kind="js"
+  path="strapi.documents().findMany()"
+  title="findMany() with publicationFilter: 'has-published-version'"
+  description="Return the draft rows of documents that also have a published version for the same locale."
+  codeTabs={[
+    {
+      label: 'JavaScript',
+      code: `await strapi.documents('api::restaurant.restaurant').findMany({
+    status: 'draft',
+    publicationFilter: 'has-published-version',
+});`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: 'OK',
+      body: `[
+  {
+    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+    name: "Biscotte Restaurant",
+    publishedAt: null,
+    locale: "en", // default locale
+    // …
+  }
+  // …
+]`
+    }
+  ]}
+/>
+
+### Unmodified entries {#unmodified-example}
+
+`unmodified` selects documents whose draft has not changed since it was last published (the draft row's `updatedAt` is not more recent than the published row's). It returns rows with either `status`; the example below returns the draft rows.
+
+<Endpoint
+  kind="js"
+  path="strapi.documents().findMany()"
+  title="findMany() with publicationFilter: 'unmodified'"
+  description="Return the draft rows of documents unchanged since their last publication."
+  codeTabs={[
+    {
+      label: 'JavaScript',
+      code: `await strapi.documents('api::restaurant.restaurant').findMany({
+    status: 'draft',
+    publicationFilter: 'unmodified',
+});`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: 'OK',
+      body: `[
+  {
+    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+    name: "Biscotte Restaurant",
+    publishedAt: null,
+    locale: "en", // default locale
+    // …
+  }
+  // …
+]`
+    }
+  ]}
+/>
+
+### Documents published in at least one locale {#has-published-version-document-example}
+
+`has-published-version-document` considers all locales, so it matches a document as soon as one of its locales is published. With `status: 'draft'`, it returns the draft rows of every locale of those documents, including locales that were never published themselves:
+
+<Endpoint
+  kind="js"
+  path="strapi.documents().findMany()"
+  title="findMany() with publicationFilter: 'has-published-version-document'"
+  description="Return the draft rows of documents published in at least one locale."
+  codeTabs={[
+    {
+      label: 'JavaScript',
+      code: `await strapi.documents('api::restaurant.restaurant').findMany({
+    status: 'draft',
+    publicationFilter: 'has-published-version-document',
+});`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: 'OK',
+      body: `[
+  {
+    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+    name: "Biscotte Restaurant",
+    publishedAt: null,
+    locale: "en", // published in at least one locale
     // …
   }
   // …
