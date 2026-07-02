@@ -101,7 +101,7 @@ Strapi internals refer to the groups of documents these values select as *public
 
 | I want to… | Parameters | Full example |
 | ---------- | ---------- | ------------ |
-| Find drafts never published in a given locale | `status: 'draft'`, `publicationFilter: 'never-published'` | [Quick example](#quick-example) |
+| Find drafts never published in a given locale | `status: 'draft'`<br/>`publicationFilter: 'never-published'` | [Quick example](#quick-example) |
 | Find the newer drafts of entries modified since their last publication | `status: 'draft'`, `publicationFilter: 'modified'` | [Modified documents](#modified) |
 | Find the currently-live version of those same modified entries | `status: 'published'`, `publicationFilter: 'modified'` | [Modified documents](#modified) |
 | Find drafts that have not changed since their last publication | `status: 'draft'` or `'published'`, `publicationFilter: 'unmodified'` | – |
