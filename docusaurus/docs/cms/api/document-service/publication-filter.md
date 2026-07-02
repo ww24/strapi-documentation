@@ -93,7 +93,9 @@ The next section lists all accepted values, [Use cases](#use-cases) maps common 
 Values ending in `-document` consider all locales of a document, which matters when [Internationalization (i18n)](/cms/features/internationalization) is enabled: for example, `never-published-document` excludes a document as soon as one of its locales is published. All other values consider one locale at a time. Without i18n, both variants behave the same.
 :::
 
+:::info "Cohorts"?
 Strapi internals refer to the groups of documents these values select as *publication cohorts*, but you never need that term to use the API.
+:::
 
 ## Use cases {#use-cases}
 
@@ -111,11 +113,13 @@ Strapi internals refer to the groups of documents these values select as *public
 | Check whether one specific document matches a value | `publicationFilter` with `findOne()` or `findFirst()` | [Use with findOne() and findFirst()](#find-one-find-first) |
 | Count only the documents that match a value | `publicationFilter` with `count()` | [Count only matching documents](#count) |
 
+:::caution
 Pairing a value with the opposite `status` from the table above is valid but returns no rows rather than an error: for example, `never-published` with `status: 'published'` returns an empty result, because these documents have no published row yet.
+:::
 
 ## Modified documents {#modified}
 
-`modified` selects documents whose draft was edited since it was last published (the draft row's `updatedAt` is more recent than the published row's); `status` then chooses which row you get for those same documents: the newer draft or the currently-live published version.
+`modified` selects documents whose draft was edited since it was last published (the draft row's `updatedAt` is more recent than the published row's). The example below returns their newer draft rows; pass `status: 'published'` instead to return the currently-live published version of those same documents.
 
 <Endpoint
   kind="js"
@@ -140,38 +144,6 @@ Pairing a value with the opposite `status` from the table above is valid but ret
     documentId: "a1b2c3d4e5f6g7h8i9j0klm",
     name: "Biscotte Restaurant (updated)",
     publishedAt: null,
-    locale: "en", // default locale
-    // …
-  }
-  // …
-]`
-    }
-  ]}
-/>
-
-<Endpoint
-  kind="js"
-  path="strapi.documents().findMany()"
-  title="findMany() with publicationFilter: 'modified' and status: 'published'"
-  description="Return the currently-live published rows of those same modified documents."
-  codeTabs={[
-    {
-      label: 'JavaScript',
-      code: `await strapi.documents('api::restaurant.restaurant').findMany({
-  status: 'published',
-  publicationFilter: 'modified',
-});`
-    }
-  ]}
-  responses={[
-    {
-      status: 200,
-      statusText: 'OK',
-      body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "Biscotte Restaurant",
-    publishedAt: "2024-03-14T15:40:45.330Z",
     locale: "en", // default locale
     // …
   }
