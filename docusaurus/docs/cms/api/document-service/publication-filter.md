@@ -85,7 +85,7 @@ The following section lists the most common use cases summed up in the [table](#
 
 ### Find never published drafts {#never-published-example}
 
-One of the most common use cases is to find the drafts that have never been published, pass:
+One of the most common use cases is to find the drafts that have never been published. To do so, pass:
 
 - `status: 'draft'` (so you read the draft row)
 - and `publicationFilter: 'never-published'` (so you only keep documents with no published version):
