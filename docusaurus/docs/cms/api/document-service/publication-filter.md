@@ -60,8 +60,8 @@ To read the drafts that have never been published, pass:
     {
       label: 'JavaScript',
       code: `await strapi.documents('api::restaurant.restaurant').findMany({
-  status: 'draft',
-  publicationFilter: 'never-published',
+    status: 'draft',
+    publicationFilter: 'never-published',
 });`
     }
   ]}
@@ -69,15 +69,15 @@ To read the drafts that have never been published, pass:
     {
       status: 200,
       statusText: 'OK',
-      body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "New Restaurant",
-    publishedAt: null,
-    locale: "en", // default locale
+  body: `[
+    {
+      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+      name: "New Restaurant",
+      publishedAt: null,
+      locale: "en", // default locale
+      // …
+    }
     // …
-  }
-  // …
 ]`
     }
   ]}
