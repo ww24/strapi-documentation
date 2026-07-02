@@ -132,8 +132,8 @@ Pairing a value with the opposite `status` from the table above is valid but ret
     {
       label: 'JavaScript',
       code: `await strapi.documents('api::restaurant.restaurant').findMany({
-  status: 'draft',
-  publicationFilter: 'modified',
+    status: 'draft',
+    publicationFilter: 'modified',
 });`
     }
   ]}
@@ -168,8 +168,8 @@ Pairing a value with the opposite `status` from the table above is valid but ret
     {
       label: 'JavaScript',
       code: `await strapi.documents('api::restaurant.restaurant').findMany({
-  status: 'draft',
-  publicationFilter: 'never-published-document',
+    status: 'draft',
+    publicationFilter: 'never-published-document',
 });`
     }
   ]}
@@ -204,8 +204,8 @@ Pairing a value with the opposite `status` from the table above is valid but ret
     {
       label: 'JavaScript',
       code: `await strapi.documents('api::restaurant.restaurant').findMany({
-  status: 'published',
-  publicationFilter: 'published-without-draft',
+    status: 'published',
+    publicationFilter: 'published-without-draft',
 });`
     }
   ]}
@@ -240,8 +240,8 @@ Pairing a value with the opposite `status` from the table above is valid but ret
     {
       label: 'JavaScript',
       code: `await strapi.documents('api::restaurant.restaurant').findMany({
-  status: 'published',
-  publicationFilter: 'published-with-draft',
+    status: 'published',
+    publicationFilter: 'published-with-draft',
 });`
     }
   ]}
@@ -276,9 +276,9 @@ If the requested document (and locale, when applicable) does not match the filte
     {
       label: 'JavaScript',
       code: `await strapi.documents('api::restaurant.restaurant').findOne({
-  documentId: 'a1b2c3d4e5f6g7h8i9j0klm',
-  status: 'draft',
-  publicationFilter: 'never-published',
+    documentId: 'a1b2c3d4e5f6g7h8i9j0klm',
+    status: 'draft',
+    publicationFilter: 'never-published',
 });`
     }
   ]}
