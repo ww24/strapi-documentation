@@ -72,11 +72,30 @@ To read the drafts that have never been published, pass:
 />
 
 <br/>
-The table below lists all supported use cases, and the rest of the page shows complete examples.
+The next section lists all accepted values, [Use cases](#use-cases) maps common goals to the parameters to pass, and the rest of the page shows complete examples.
 
-## Use cases {#values}
+## Available values {#values}
 
-`publicationFilter` accepts the kebab-case values listed below; GraphQL exposes the same set through the [`PublicationFilter` enum](/cms/api/graphql#publication-filter). Unknown values raise a validation error (REST returns HTTP `400`; GraphQL fails at query validation). Strapi internals refer to the groups of documents these values select as *publication cohorts*, but you never need that term to use the API.
+`publicationFilter` accepts one of the following kebab-case values. GraphQL exposes the same set through the [`PublicationFilter` enum](/cms/api/graphql#publication-filter). Unknown values raise a validation error (REST returns HTTP `400`; GraphQL fails at query validation).
+
+| Value | Selects |
+| ----- | ------- |
+| `never-published` | Documents never published in a given locale |
+| `has-published-version` | Documents that have both a draft and a published version |
+| `modified` | Documents whose draft was edited since it was last published |
+| `unmodified` | Documents whose draft has not changed since it was last published |
+| `published-without-draft` | Published entries with no draft counterpart |
+| `published-with-draft` | Published entries that also have a draft |
+| `never-published-document` | Documents never published in any locale |
+| `has-published-version-document` | Documents published in at least one locale |
+
+:::note Values ending in -document and localization
+Values ending in `-document` consider all locales of a document, which matters when [Internationalization (i18n)](/cms/features/internationalization) is enabled: for example, `never-published-document` excludes a document as soon as one of its locales is published. All other values consider one locale at a time. Without i18n, both variants behave the same.
+:::
+
+Strapi internals refer to the groups of documents these values select as *publication cohorts*, but you never need that term to use the API.
+
+## Use cases {#use-cases}
 
 | I want to… | Parameters | Full example |
 | ---------- | ---------- | ------------ |
@@ -91,10 +110,6 @@ The table below lists all supported use cases, and the rest of the page shows co
 | Find documents published in at least one locale | `status: 'draft'` or `'published'`, `publicationFilter: 'has-published-version-document'` | – |
 | Check whether one specific document matches a value | `publicationFilter` with `findOne()` or `findFirst()` | [Use with findOne() and findFirst()](#find-one-find-first) |
 | Count only the documents that match a value | `publicationFilter` with `count()` | [Count only matching documents](#count) |
-
-:::note Values ending in -document and localization
-Values ending in `-document` consider all locales of a document, which matters when [Internationalization (i18n)](/cms/features/internationalization) is enabled: for example, `never-published-document` excludes a document as soon as one of its locales is published. All other values consider one locale at a time. Without i18n, both variants behave the same.
-:::
 
 Pairing a value with the opposite `status` from the table above is valid but returns no rows rather than an error: for example, `never-published` with `status: 'published'` returns an empty result, because these documents have no published row yet.
 
