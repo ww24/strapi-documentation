@@ -86,7 +86,7 @@ To read the drafts that have never been published, pass:
 <br/>
 The rest of this page is organized in 2 parts: [Understand `status` vs `publicationFilter`](#understand) explains the model behind the filter, and the [API reference](#reference) lists all values, their exact definitions, and more examples. You can use the reference directly and come back to the explanations when a combination surprises you.
 
-## Understand `status` vs `publicationFilter` {#understand}
+## `status` vs `publicationFilter` {#understand}
 
 This section explains the model behind `publicationFilter`. You do not need it to use the common values shown in the [examples](#examples), but it is what lets you predict the result of any `status` × `publicationFilter` combination.
 
