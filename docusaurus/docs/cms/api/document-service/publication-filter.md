@@ -24,11 +24,11 @@ Use the optional `publicationFilter` parameter to query documents by the relatio
 
 </Tldr>
 
-The `publicationFilter` is a parameter that, combined with [the `status` parameter](/cms/api/document-service/status), can help you find exactly what you need.
+The `publicationFilter` is a parameter that, combined with [the `status` parameter](/cms/api/document-service/status), can help you cover complex queries to find exactly what you need with the [Document Service API](/cms/api/document-service).
 
 While `status` answers "do I want the draft or the published version?", the `publicationFilter` parameter answers a different question: "which documents do I want, based on how their draft and published versions relate?". This is useful for example to find drafts that were never published, or entries whose draft has unsaved changes compared to what is live.
 
-:::caution Caution: Different default API behaviors
+:::caution Caution: Different default behaviors for different APIs
 The Document Service API returns draft versions of documents when `status` is omitted, while REST and GraphQL return the published ones instead, so REST API queries need an explicit `status` (see [REST API: `publicationFilter`](/cms/api/rest/publication-filter)).
 :::
 
@@ -38,7 +38,7 @@ The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled o
 
 ## Available values {#values}
 
-`publicationFilter` accepts one of the following kebab-case values. GraphQL exposes the same set through the [`PublicationFilter` enum](/cms/api/graphql#publication-filter). Unknown values raise a validation error (REST returns HTTP `400`; GraphQL fails at query validation).
+`publicationFilter` accepts one of the following kebab-case values.
 
 | Value | Selects |
 | ----- | ------- |
@@ -49,14 +49,16 @@ The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled o
 | `published-without-draft` | Published entries with no draft counterpart |
 | `published-with-draft` | Published entries that also have a draft |
 | `never-published-document` | Documents never published in any locale |
-| `has-published-version-document` | Documents published in at least one locale |
-
-:::note Values ending in -document and localization
-Values ending in `-document` consider all locales of a document, which matters when [Internationalization (i18n)](/cms/features/internationalization) is enabled: for example, `never-published-document` excludes a document as soon as one of its locales is published. All other values consider one locale at a time. Without i18n, both variants behave the same.
-:::
+| `has-published-version-document` | Documents published in at least one locale<br/>(useful when [i18n](/cms/features/internationalization) is enabled) |
 
 :::info "Cohorts"?
 Strapi internals refer to the groups of documents these values select as *publication cohorts*, but you never need that term to use the API.
+:::
+
+:::note Notes
+*  GraphQL exposes the same set through the [`PublicationFilter` enum](/cms/api/graphql#publication-filter).
+* Unknown values raise a validation error (REST returns HTTP `400`; GraphQL fails at query validation).
+* Values ending in `-document` consider all locales of a document, which matters when [Internationalization (i18n)](/cms/features/internationalization) is enabled: for example, `never-published-document` excludes a document as soon as one of its locales is published. All other values consider one locale at a time. Without i18n, both variants behave the same.
 :::
 
 ## Possible use cases {#use-cases}
@@ -128,13 +130,15 @@ One of the most common use cases is to find the drafts that have never been publ
 
 ### Find modified documents {#modified}
 
-`modified` selects documents whose draft was edited since it was last published (the draft row's `updatedAt` is more recent than the published row's). The example below returns their newer draft rows; pass `status: 'published'` instead to return the currently-live published version of those same documents.
+`publicationFilter: modified` selects documents whose draft has unpublished changes. `status` then decides which version of those documents you get back.
+
+With `status: 'draft'`, the query returns the pending draft rows:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'modified' and status: 'draft'"
-  description="Return the newer draft rows of documents modified since their last publication."
+  description="Return the pending draft rows of documents with unpublished changes."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -162,9 +166,43 @@ One of the most common use cases is to find the drafts that have never been publ
   ]}
 />
 
+With `status: 'published'`, the same query returns the currently live version of those documents instead:
+
+<Endpoint
+  kind="js"
+  path="strapi.documents().findMany()"
+  title="findMany() with publicationFilter: 'modified' and status: 'published'"
+  description="Return the currently live rows of documents with unpublished changes."
+  codeTabs={[
+    {
+      label: 'JavaScript',
+      code: `await strapi.documents('api::restaurant.restaurant').findMany({
+    status: 'published',
+    publicationFilter: 'modified',
+});`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: 'OK',
+      body: `[
+  {
+    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+    name: "Biscotte Restaurant",
+    publishedAt: "2024-03-14T15:40:45.330Z",
+    locale: "en", // default locale
+    // …
+  }
+  // …
+]`
+    }
+  ]}
+/>
+
 ### Find documents never published in any locale {#document-scoped}
 
-`never-published-document` considers all locales, so a multi-locale document with even one published locale is excluded entirely, including its draft-only locales:
+`publicationFilter: never-published-document` considers all locales, so a multi-locale document with even one published locale is excluded entirely, including its draft-only locales:
 
 <Endpoint
   kind="js"
@@ -198,7 +236,7 @@ One of the most common use cases is to find the drafts that have never been publ
   ]}
 />
 
-### Published entries without a draft {#published-without-draft-example}
+### Find published entries without a draft {#published-without-draft-example}
 
 `published-without-draft` describes published rows, so it requires `status: 'published'`:
 
@@ -234,7 +272,7 @@ One of the most common use cases is to find the drafts that have never been publ
   ]}
 />
 
-### Published entries with a draft {#published-with-draft-example}
+### Find published entries with a draft {#published-with-draft-example}
 
 `published-with-draft` also describes published rows and requires `status: 'published'`:
 
@@ -270,7 +308,7 @@ One of the most common use cases is to find the drafts that have never been publ
   ]}
 />
 
-### Entries with a published version {#has-published-version-example}
+### Find entries with a published version {#has-published-version-example}
 
 `has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). It returns rows with either `status`; the example below returns the draft rows.
 
@@ -306,7 +344,7 @@ One of the most common use cases is to find the drafts that have never been publ
   ]}
 />
 
-### Unmodified entries {#unmodified-example}
+### Find unmodified entries {#unmodified-example}
 
 `unmodified` selects documents whose draft has not changed since it was last published (the draft row's `updatedAt` is not more recent than the published row's). It returns rows with either `status`; the example below returns the draft rows.
 
@@ -342,7 +380,7 @@ One of the most common use cases is to find the drafts that have never been publ
   ]}
 />
 
-### Documents published in at least one locale {#has-published-version-document-example}
+### Find documents published in at least one locale {#has-published-version-document-example}
 
 `has-published-version-document` considers all locales, so it matches a document as soon as one of its locales is published. With `status: 'draft'`, it returns the draft rows of every locale of those documents, including locales that were never published themselves:
 
