@@ -48,8 +48,8 @@ To read the drafts that have never been published, pass:
     {
       label: 'JavaScript',
       code: `await strapi.documents('api::restaurant.restaurant').findMany({
-  status: 'draft',
-  publicationFilter: 'never-published',
+    status: 'draft',
+    publicationFilter: 'never-published',
 });`
     }
   ]}
