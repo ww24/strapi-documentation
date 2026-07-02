@@ -61,6 +61,8 @@ Strapi internals refer to the groups of documents these values select as *public
 
 ## Possible use cases {#use-cases}
 
+The following table lists many possible use cases, illustrating how the `status` and `publicationFilter` parameters can be combined to find exactly what you need with the Document Service API:
+
 | I want to… | Use `status` as… | Use `publicationFilter` as… | Full example |
 | ---------- | ------------------ | ----------------------------- | ------------ |
 | Find drafts never published in a given locale | `draft` | `never-published` | [Find never published drafts](#never-published-example) |
@@ -124,7 +126,7 @@ One of the most common use cases is to find the drafts that have never been publ
 
 <br/>
 
-### Modified documents {#modified}
+### Find modified documents {#modified}
 
 `modified` selects documents whose draft was edited since it was last published (the draft row's `updatedAt` is more recent than the published row's). The example below returns their newer draft rows; pass `status: 'published'` instead to return the currently-live published version of those same documents.
 
@@ -160,7 +162,7 @@ One of the most common use cases is to find the drafts that have never been publ
   ]}
 />
 
-### Documents never published in any locale {#document-scoped}
+### Find documents never published in any locale {#document-scoped}
 
 `never-published-document` considers all locales, so a multi-locale document with even one published locale is excluded entirely, including its draft-only locales:
 
