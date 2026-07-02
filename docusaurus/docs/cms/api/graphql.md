@@ -432,13 +432,15 @@ query Query($status: PublicationStatus) {
 }
 ```
 
-### Filter by derived publication cohort {#publication-filter}
+### Filter with `publicationFilter` {#publication-filter}
 
-If the [Draft & Publish](/cms/features/draft-and-publish) feature is enabled, you can add a `publicationFilter` argument to built-in collection and single-type queries. The GraphQL plugin exposes the same cohorts as the REST API and Document Service API through the `PublicationFilter` enum.
+If the [Draft & Publish](/cms/features/draft-and-publish) feature is enabled, you can add a `publicationFilter` argument to built-in collection and single-type queries. It filters documents by the relationship between their draft and published versions (their [*cohort*](/cms/api/document-service/publication-filter#understand)): for example, drafts that were never published, or entries modified since they were last published. GraphQL exposes the same cohorts as the REST API and the Document Service API through the `PublicationFilter` enum.
 
-Combine `publicationFilter` with `status` the same way as for REST (see [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter#status-combination)).
+`publicationFilter` selects the cohort first; the `status` argument then decides whether each result returns its draft or published row.
 
-When `status` is omitted, GraphQL defaults to `PUBLISHED` before applying `publicationFilter` (same as REST). Example: `restaurants(publicationFilter: MODIFIED)` returns published rows in the modified cohort; use `status: DRAFT` to return draft rows instead.
+:::caution
+When `status` is omitted, GraphQL defaults to `PUBLISHED` before applying `publicationFilter` (same as REST). Draft-only values such as `NEVER_PUBLISHED` return no results unless you pass `status: DRAFT`. See [default `status` per API surface](/cms/api/document-service/publication-filter#default-status).
+:::
 
 ```graphql title="Example: Fetch never-published draft documents"
 query Query($status: PublicationStatus, $publicationFilter: PublicationFilter) {
@@ -472,6 +474,8 @@ Available enum values:
 | `HAS_PUBLISHED_VERSION_DOCUMENT` | `has-published-version-document` |
 | `PUBLISHED_WITHOUT_DRAFT` | `published-without-draft` |
 | `PUBLISHED_WITH_DRAFT` | `published-with-draft` |
+
+To learn more, see the Document Service API reference: [available values and their scope](/cms/api/document-service/publication-filter#values), and [which rows each `status` × `publicationFilter` combination returns](/cms/api/document-service/publication-filter#status-combination).
 
 ## Mutations
 
