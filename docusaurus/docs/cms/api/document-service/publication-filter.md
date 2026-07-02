@@ -308,6 +308,6 @@ const neverPublishedCount = await strapi
 
 `publicationFilter` is combined with other query parameters as a logical `AND`, including [`filters`](/cms/api/document-service/filters) and [`populate`](/cms/api/document-service/populate). When populating draft & publish relations, nested queries inherit the same filter logic.
 
-### Content Manager mapping {#content-manager}
-
-In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`). Other Status filter options use internal APIs rather than public `publicationFilter` values.
+:::note Note: Content Manager mapping
+In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`). 
+:::
