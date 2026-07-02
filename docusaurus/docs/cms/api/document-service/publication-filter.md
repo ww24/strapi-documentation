@@ -25,20 +25,7 @@ Use the optional `publicationFilter` parameter to query documents by the relatio
 
 </Tldr>
 
-The [`status`](/cms/api/document-service/status) parameter answers "do I want the draft or the published version?". The `publicationFilter` parameter answers a different question: "which documents do I want, based on how their draft and published versions relate?".
-
-For example, you can ask for drafts that were never published, or for entries whose draft has unsaved changes compared to what is live. `publicationFilter` selects that group of documents first; `status` then decides which row (draft or published) is returned for each.
-
-:::note Key terms
-Strapi Draft & Publish stores each entry as up to 2 database rows for the same document and locale:
-
-- a *draft row* (`publishedAt` is empty)
-- a *published row* (`publishedAt` is set)
-
-The `status` parameter picks which of the 2 rows to read.
-
-`publicationFilter` instead selects a group of documents based on how their draft and published rows relate (for example, never published, or draft newer than published). Some of these questions compare the 2 rows, so they cannot be expressed by filtering on `publishedAt` alone.
-:::
+The [`status`](/cms/api/document-service/status) parameter answers "do I want the draft or the published version?". The `publicationFilter` parameter answers a different question: "which documents do I want, based on how their draft and published versions relate?". For example: drafts that were never published, or entries whose draft has unsaved changes compared to what is live.
 
 :::prerequisites
 The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled on the content-type. If Draft & Publish is disabled, `publicationFilter` has no effect.
@@ -84,7 +71,7 @@ To read the drafts that have never been published, pass:
 />
 
 <br/>
-The rest of this page is organized in 2 parts: [Understand `status` vs `publicationFilter`](#understand) explains the model behind the filter, and the [API reference](#reference) lists all values, their exact definitions, and more examples. You can use the reference directly and come back to the explanations when a combination surprises you.
+The rest of this page is organized in 2 parts: [`status` vs `publicationFilter`](#understand) explains the model behind the filter, and the [API reference](#reference) lists all values, their exact definitions, and more examples. You can use the reference directly and come back to the explanations when a combination surprises you.
 
 ## `status` vs `publicationFilter` {#understand}
 
@@ -92,9 +79,17 @@ This section explains the model behind `publicationFilter`. You do not need it t
 
 ### The model {#the-model}
 
-A document can have up to 2 rows for the same `(documentId, locale)` pair: a *draft row* (`publishedAt: null`) and a *published row* (non-null `publishedAt`). The [`status`](/cms/api/document-service/status) parameter picks which of these 2 rows to read, while `publicationFilter` first selects the group of documents to consider, based on how their draft and published rows relate.
+Strapi Draft & Publish stores each entry as up to 2 database rows for the same `(documentId, locale)` pair:
 
-Strapi selects the matching documents first, then returns the row that matches the resolved `status`. (Strapi internals refer to these groups of documents as *publication cohorts*, but you never need that term to use the API.)
+- a *draft row* (`publishedAt` is null)
+- a *published row* (`publishedAt` is set)
+
+A query resolves in 2 steps:
+
+1. `publicationFilter` selects the documents to consider, based on how their draft and published rows relate.
+2. [`status`](/cms/api/document-service/status) picks which of the 2 rows is returned for each selected document.
+
+Some questions ("was this ever published?", "is the draft newer than the live version?") compare the 2 rows, which is why they cannot be expressed by filtering on `publishedAt` alone. (Strapi internals refer to these groups of documents as *publication cohorts*, but you never need that term to use the API.)
 
 ### Scope: pair vs. document {#scope}
 
@@ -107,7 +102,7 @@ Without i18n, both scopes behave the same.
 
 ### Default `status` per API surface {#default-status}
 
-`publicationFilter` is applied *after* `status` is resolved, so the default `status` of your API surface affects what you get back:
+When you omit `status`, each API surface fills in its own default before the query runs, and that default decides which rows you get back:
 
 | API surface | Default `status` when omitted |
 | ----------- | ----------------------------- |
