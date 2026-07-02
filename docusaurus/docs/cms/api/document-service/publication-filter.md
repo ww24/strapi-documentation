@@ -24,7 +24,9 @@ Use the optional `publicationFilter` parameter to query documents by the relatio
 
 </Tldr>
 
-The [`status`](/cms/api/document-service/status) parameter answers "do I want the draft or the published version?". The `publicationFilter` parameter answers a different question: "which documents do I want, based on how their draft and published versions relate?". For example: drafts that were never published, or entries whose draft has unsaved changes compared to what is live.
+The `publicationFilter` is a parameter that, combined with [the `status` parameter](/cms/api/document-service/status), can help you find exactly what you need.
+
+While `status` answers "do I want the draft or the published version?", the `publicationFilter` parameter answers a different question: "which documents do I want, based on how their draft and published versions relate?". This is useful for example to find drafts that were never published, or entries whose draft has unsaved changes compared to what is live.
 
 With Draft & Publish, Strapi stores each entry as up to 2 database rows per locale: a *draft row* and a *published row*. `publicationFilter` selects which documents to consider, based on how these 2 rows relate; `status` picks which of the 2 rows is returned for each of them. The Document Service API returns draft rows when `status` is omitted; REST and GraphQL return published rows instead, so the equivalent queries there need an explicit `status` (see [REST API: `publicationFilter`](/cms/api/rest/publication-filter)).
 
