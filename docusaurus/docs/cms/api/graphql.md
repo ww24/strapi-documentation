@@ -434,12 +434,12 @@ query Query($status: PublicationStatus) {
 
 ### Filter with `publicationFilter` {#publication-filter}
 
-If the [Draft & Publish](/cms/features/draft-and-publish) feature is enabled, you can add a `publicationFilter` argument to built-in collection and single-type queries. It filters documents by the [relationship between their draft and published versions](/cms/api/document-service/publication-filter#understand): for example, drafts that were never published, or entries modified since they were last published. GraphQL exposes the same values as the REST API and the Document Service API through the `PublicationFilter` enum.
+If the [Draft & Publish](/cms/features/draft-and-publish) feature is enabled, you can add a `publicationFilter` argument to built-in collection and single-type queries. It filters documents by the [relationship between their draft and published versions](/cms/api/document-service/publication-filter): for example, drafts that were never published, or entries modified since they were last published. GraphQL exposes the same values as the REST API and the Document Service API through the `PublicationFilter` enum.
 
 `publicationFilter` selects the group of documents first; the `status` argument then decides whether each result returns its draft or published row.
 
 :::caution
-When `status` is omitted, GraphQL defaults to `PUBLISHED` before applying `publicationFilter` (same as REST). Draft-only values such as `NEVER_PUBLISHED` return no results unless you pass `status: DRAFT`. See [default `status` per API surface](/cms/api/document-service/publication-filter#default-status).
+When `status` is omitted, GraphQL defaults to `PUBLISHED` before applying `publicationFilter` (same as REST). Draft-only values such as `NEVER_PUBLISHED` return no results unless you pass `status: DRAFT`.
 :::
 
 ```graphql title="Example: Fetch never-published draft documents"
@@ -475,7 +475,7 @@ Available enum values:
 | `PUBLISHED_WITHOUT_DRAFT` | `published-without-draft` |
 | `PUBLISHED_WITH_DRAFT` | `published-with-draft` |
 
-To learn more, see the Document Service API reference: [available values and their scope](/cms/api/document-service/publication-filter#values), and [which rows each `status` × `publicationFilter` combination returns](/cms/api/document-service/publication-filter#status-combination).
+To learn more, see the [use cases and accepted values](/cms/api/document-service/publication-filter#values) on the Document Service API page.
 
 ## Mutations
 

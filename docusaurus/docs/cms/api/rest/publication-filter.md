@@ -211,7 +211,7 @@ When `status` is omitted, REST defaults to `status=published` **before** applyin
 | `?status=draft&publicationFilter=modified` | Draft rows of modified documents | `status=draft` reads the newer draft |
 | `?publicationFilter=published-without-draft` | Published rows with no draft | The default `status=published` is correct here |
 
-The Document Service API defaults to `status=draft` instead. See [Document Service API: default `status`](/cms/api/document-service/publication-filter#default-status) for the full comparison across API surfaces.
+The Document Service API defaults to `status=draft` instead (see [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter)).
 
 ## Reference: accepted values {#values}
 
