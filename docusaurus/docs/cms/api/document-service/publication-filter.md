@@ -1,6 +1,6 @@
 ---
 title: Using publicationFilter with the Document Service API
-description: Use the publicationFilter parameter with Strapi's Document Service API to query derived Draft & Publish cohorts such as never-published or modified documents.
+description: Use the publicationFilter parameter with Strapi's Document Service API to query documents by the relationship between their draft and published versions, such as never-published or modified documents.
 displayed_sidebar: cmsSidebar
 sidebar_label: Publication filter
 toc_max_heading_level: 4
@@ -37,7 +37,7 @@ Strapi Draft & Publish stores each entry as up to 2 database rows for the same d
 
 The `status` parameter picks which of the 2 rows to read.
 
-`publicationFilter` instead selects a *cohort*: a group of documents defined by how their draft and published rows relate (for example, never published, or draft newer than published). Some cohorts compare the 2 rows, so they cannot be expressed by filtering on `publishedAt` alone.
+`publicationFilter` instead selects a group of documents based on how their draft and published rows relate (for example, never published, or draft newer than published). Some of these questions compare the 2 rows, so they cannot be expressed by filtering on `publishedAt` alone.
 :::
 
 :::prerequisites
@@ -80,17 +80,17 @@ To read the drafts that have never been published, pass `status: 'draft'` (so yo
   ]}
 />
 
-The rest of this page is organized in 2 parts: [Understand `status` vs `publicationFilter`](#understand) explains the model behind cohorts, and the [API reference](#reference) lists all values, their exact definitions, and more examples. You can use the reference directly and come back to the explanations when a combination surprises you.
+The rest of this page is organized in 2 parts: [Understand `status` vs `publicationFilter`](#understand) explains the model behind the filter, and the [API reference](#reference) lists all values, their exact definitions, and more examples. You can use the reference directly and come back to the explanations when a combination surprises you.
 
 ## Understand `status` vs `publicationFilter` {#understand}
 
-This section explains the model behind `publicationFilter`. You do not need it to use the common cohorts shown in the [examples](#examples), but it is what lets you predict the result of any `status` × `publicationFilter` combination.
+This section explains the model behind `publicationFilter`. You do not need it to use the common values shown in the [examples](#examples), but it is what lets you predict the result of any `status` × `publicationFilter` combination.
 
 ### The model {#the-model}
 
-A document can have up to 2 rows for the same `(documentId, locale)` pair: a *draft row* (`publishedAt: null`) and a *published row* (non-null `publishedAt`). The [`status`](/cms/api/document-service/status) parameter picks which of these 2 rows to read, while `publicationFilter` selects the *cohort* of documents first, based on how their draft and published rows relate.
+A document can have up to 2 rows for the same `(documentId, locale)` pair: a *draft row* (`publishedAt: null`) and a *published row* (non-null `publishedAt`). The [`status`](/cms/api/document-service/status) parameter picks which of these 2 rows to read, while `publicationFilter` first selects the group of documents to consider, based on how their draft and published rows relate.
 
-Strapi resolves the cohort first, then returns the row that matches the resolved `status`.
+Strapi selects the matching documents first, then returns the row that matches the resolved `status`. (Strapi internals refer to these groups of documents as *publication cohorts*, but you never need that term to use the API.)
 
 ### Scope: pair vs. document {#scope}
 
@@ -136,7 +136,7 @@ Unknown values raise a validation error (REST returns HTTP `400`; GraphQL fails 
 
 `published-without-draft` and `published-with-draft` describe published rows, so they only return results with `status: 'published'`.
 
-### Cohort definitions {#cohort-definitions}
+### Exact definitions {#cohort-definitions}
 
 The following table lists the same 8 values in the same order as [above](#values), this time with the exact predicate each one applies:
 
@@ -157,7 +157,7 @@ The following table lists the same 8 values in the same order as [above](#values
 
 ### Which rows a combination returns {#status-combination}
 
-Because the cohort is resolved before `status` selects a row, some combinations always return nothing. The grid below shows which `status` × `publicationFilter` pairs return rows and which are always empty:
+Because the matching documents are selected before `status` picks a row, some combinations always return nothing. The grid below shows which `status` × `publicationFilter` pairs return rows and which are always empty:
 
 | `publicationFilter` | With `status: 'draft'` | With `status: 'published'` |
 | ------------------- | :--------------------: | :------------------------: |
@@ -170,12 +170,12 @@ Because the cohort is resolved before `status` selects a row, some combinations 
 | `never-published-document` | ✅ | ∅ |
 | `has-published-version-document` | ✅ | ✅ |
 
-✅ returns the rows of the resolved status within the cohort; ∅ is always empty because the cohort has no row of that status.
+✅ returns the rows of the resolved status within the selected group of documents; ∅ is always empty because that group has no row of that status.
 
 When a combination returns rows, it returns them as follows:
 
-- With `status: 'draft'`, you get the draft rows of documents in the cohort.
-- With `status: 'published'`, you get the published rows of documents in the cohort.
+- With `status: 'draft'`, you get the draft rows of the selected documents.
+- With `status: 'published'`, you get the published rows of the selected documents.
 
 For example, `modified` with `status: 'draft'` returns the newer draft rows, while `modified` with `status: 'published'` returns the currently-live published rows of those same documents.
 
@@ -185,7 +185,7 @@ Valid but empty combinations (the ∅ cells) do not return validation errors, th
 
 ### More examples {#examples}
 
-The following examples show the most common cohorts. For the exact rows each combination returns, see [Which rows a combination returns](#status-combination).
+The following examples show the most common values. For the exact rows each combination returns, see [Which rows a combination returns](#status-combination).
 
 #### Modified documents {#modified}
 
@@ -365,13 +365,13 @@ The following examples show the most common cohorts. For the exact rows each com
 
 #### Use with `findOne()` and `findFirst()` {#find-one-find-first}
 
-If the requested document (and locale, when applicable) is not in the cohort, `findOne()` and `findFirst()` return `null` even when the `documentId` exists:
+If the requested document (and locale, when applicable) does not match the filter, `findOne()` and `findFirst()` return `null` even when the `documentId` exists:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findOne()"
   title="findOne() with publicationFilter: 'never-published'"
-  description="Return the document only if it belongs to the cohort, null otherwise."
+  description="Return the document only if it matches the filter, null otherwise."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -386,14 +386,14 @@ If the requested document (and locale, when applicable) is not in the cohort, `f
     {
       status: 200,
       statusText: 'OK',
-      body: `null // the documentId exists, but the document is not in the never-published cohort`
+      body: `null // the documentId exists, but the document does not match never-published`
     }
   ]}
 />
 
-#### Count documents in a cohort {#count}
+#### Count only matching documents {#count}
 
-Without `publicationFilter`, `count({ status: 'draft' })` counts every draft row, including drafts whose document already has a published version. Add `publicationFilter` to count only a specific cohort (see the [`status` documentation](/cms/api/document-service/status#count)):
+Without `publicationFilter`, `count({ status: 'draft' })` counts every draft row, including drafts whose document already has a published version. Add `publicationFilter` to count only the documents that match a given value (see the [`status` documentation](/cms/api/document-service/status#count)):
 
 ```js
 const neverPublishedCount = await strapi
@@ -406,7 +406,7 @@ const neverPublishedCount = await strapi
 
 ### Combine with other parameters {#combine}
 
-`publicationFilter` is combined with other query parameters as a logical `AND`, including [`filters`](/cms/api/document-service/filters) and [`populate`](/cms/api/document-service/populate). When populating draft & publish relations, nested queries inherit the same cohort logic.
+`publicationFilter` is combined with other query parameters as a logical `AND`, including [`filters`](/cms/api/document-service/filters) and [`populate`](/cms/api/document-service/populate). When populating draft & publish relations, nested queries inherit the same filter logic.
 
 ### Content Manager mapping {#content-manager}
 

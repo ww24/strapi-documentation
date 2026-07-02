@@ -434,9 +434,9 @@ query Query($status: PublicationStatus) {
 
 ### Filter with `publicationFilter` {#publication-filter}
 
-If the [Draft & Publish](/cms/features/draft-and-publish) feature is enabled, you can add a `publicationFilter` argument to built-in collection and single-type queries. It filters documents by the relationship between their draft and published versions (their [*cohort*](/cms/api/document-service/publication-filter#understand)): for example, drafts that were never published, or entries modified since they were last published. GraphQL exposes the same cohorts as the REST API and the Document Service API through the `PublicationFilter` enum.
+If the [Draft & Publish](/cms/features/draft-and-publish) feature is enabled, you can add a `publicationFilter` argument to built-in collection and single-type queries. It filters documents by the [relationship between their draft and published versions](/cms/api/document-service/publication-filter#understand): for example, drafts that were never published, or entries modified since they were last published. GraphQL exposes the same values as the REST API and the Document Service API through the `PublicationFilter` enum.
 
-`publicationFilter` selects the cohort first; the `status` argument then decides whether each result returns its draft or published row.
+`publicationFilter` selects the group of documents first; the `status` argument then decides whether each result returns its draft or published row.
 
 :::caution
 When `status` is omitted, GraphQL defaults to `PUBLISHED` before applying `publicationFilter` (same as REST). Draft-only values such as `NEVER_PUBLISHED` return no results unless you pass `status: DRAFT`. See [default `status` per API surface](/cms/api/document-service/publication-filter#default-status).
@@ -452,7 +452,7 @@ query Query($status: PublicationStatus, $publicationFilter: PublicationFilter) {
 }
 ```
 
-```graphql title="Example: Modified cohort with default PUBLISHED status"
+```graphql title="Example: Modified documents with default PUBLISHED status"
 query Query {
   restaurants(publicationFilter: MODIFIED) {
     documentId
