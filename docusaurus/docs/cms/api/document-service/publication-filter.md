@@ -102,14 +102,14 @@ Strapi internals refer to the groups of documents these values select as *public
 | I want to… | Parameters | Full example |
 | ---------- | ---------- | ------------ |
 | Find drafts never published in a given locale | `status: 'draft'`<br/>`publicationFilter: 'never-published'` | [Quick example](#quick-example) |
-| Find the newer drafts of entries modified since their last publication | `status: 'draft'`, `publicationFilter: 'modified'` | [Modified documents](#modified) |
-| Find the currently-live version of those same modified entries | `status: 'published'`, `publicationFilter: 'modified'` | [Modified documents](#modified) |
-| Find drafts that have not changed since their last publication | `status: 'draft'` or `'published'`, `publicationFilter: 'unmodified'` | – |
-| Find entries that have both a draft and a published version | `status: 'draft'` or `'published'`, `publicationFilter: 'has-published-version'` | – |
-| Find published entries that have no draft counterpart | `status: 'published'`, `publicationFilter: 'published-without-draft'` | [Published entries without a draft](#published-without-draft-example) |
-| Find published entries that also have a draft | `status: 'published'`, `publicationFilter: 'published-with-draft'` | [Published entries with a draft](#published-with-draft-example) |
-| Find drafts of documents never published in any locale | `status: 'draft'`, `publicationFilter: 'never-published-document'` | [Documents never published in any locale](#document-scoped) |
-| Find documents published in at least one locale | `status: 'draft'` or `'published'`, `publicationFilter: 'has-published-version-document'` | – |
+| Find the newer drafts of entries modified since their last publication | `status: 'draft'`<br/>`publicationFilter: 'modified'` | [Modified documents](#modified) |
+| Find the currently-live version of those same modified entries | `status: 'published'`<br/>`publicationFilter: 'modified'` | [Modified documents](#modified) |
+| Find drafts that have not changed since their last publication | `status: 'draft'` or `'published'`<br/>`publicationFilter: 'unmodified'` | – |
+| Find entries that have both a draft and a published version | `status: 'draft'` or `'published'`<br/>`publicationFilter: 'has-published-version'` | – |
+| Find published entries that have no draft counterpart | `status: 'published'`<br/>`publicationFilter: 'published-without-draft'` | [Published entries without a draft](#published-without-draft-example) |
+| Find published entries that also have a draft | `status: 'published'`<br/>`publicationFilter: 'published-with-draft'` | [Published entries with a draft](#published-with-draft-example) |
+| Find drafts of documents never published in any locale | `status: 'draft'`<br/>`publicationFilter: 'never-published-document'` | [Documents never published in any locale](#document-scoped) |
+| Find documents published in at least one locale | `status: 'draft'` or `'published'`<br/>`publicationFilter: 'has-published-version-document'` | – |
 | Check whether one specific document matches a value | `publicationFilter` with `findOne()` or `findFirst()` | [Use with findOne() and findFirst()](#find-one-find-first) |
 | Count only the documents that match a value | `publicationFilter` with `count()` | [Count only matching documents](#count) |
 
