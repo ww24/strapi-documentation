@@ -28,53 +28,13 @@ The `publicationFilter` is a parameter that, combined with [the `status` paramet
 
 While `status` answers "do I want the draft or the published version?", the `publicationFilter` parameter answers a different question: "which documents do I want, based on how their draft and published versions relate?". This is useful for example to find drafts that were never published, or entries whose draft has unsaved changes compared to what is live.
 
-With Draft & Publish, Strapi stores each entry as up to 2 database rows per locale: a *draft row* and a *published row*. `publicationFilter` selects which documents to consider, based on how these 2 rows relate; `status` picks which of the 2 rows is returned for each of them. The Document Service API returns draft rows when `status` is omitted; REST and GraphQL return published rows instead, so the equivalent queries there need an explicit `status` (see [REST API: `publicationFilter`](/cms/api/rest/publication-filter)).
+:::caution Caution: Different default API behaviors
+The Document Service API returns draft versions of documents when `status` is omitted, while REST and GraphQL return the published ones instead, so REST API queries need an explicit `status` (see [REST API: `publicationFilter`](/cms/api/rest/publication-filter)).
+:::
 
 :::prerequisites
 The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled on the content-type. If Draft & Publish is disabled, `publicationFilter` has no effect.
 :::
-
-## Quick example {#quick-example}
-
-To read the drafts that have never been published, pass:
-
-- `status: 'draft'` (so you read the draft row)
-- and `publicationFilter: 'never-published'` (so you only keep documents with no published version):
-
-<Endpoint
-  kind="js"
-  path="strapi.documents().findMany()"
-  title="findMany() with publicationFilter: 'never-published'"
-  description="Return the drafts that have never been published for their locale."
-  codeTabs={[
-    {
-      label: 'JavaScript',
-      code: `await strapi.documents('api::restaurant.restaurant').findMany({
-    status: 'draft',
-    publicationFilter: 'never-published',
-});`
-    }
-  ]}
-  responses={[
-    {
-      status: 200,
-      statusText: 'OK',
-      body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "New Restaurant",
-    publishedAt: null,
-    locale: "en", // default locale
-    // …
-  }
-  // …
-]`
-    }
-  ]}
-/>
-
-<br/>
-The next section lists all accepted values, [Use cases](#use-cases) maps common goals to the parameters to pass, and the rest of the page shows complete examples.
 
 ## Available values {#values}
 
@@ -120,6 +80,49 @@ Pairing a value with the opposite `status` from the table above is valid but ret
 :::
 
 ## Examples
+
+The following section lists the most common use cases summed up in the [table](#use-cases) above.
+
+### Find never published drafts
+
+One of the most common use cases is to find the drafts that have never been published, pass:
+
+- `status: 'draft'` (so you read the draft row)
+- and `publicationFilter: 'never-published'` (so you only keep documents with no published version):
+
+<Endpoint
+  kind="js"
+  path="strapi.documents().findMany()"
+  title="findMany() with publicationFilter: 'never-published'"
+  description="Return the drafts that have never been published for their locale."
+  codeTabs={[
+    {
+      label: 'JavaScript',
+      code: `await strapi.documents('api::restaurant.restaurant').findMany({
+    status: 'draft',
+    publicationFilter: 'never-published',
+});`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: 'OK',
+      body: `[
+  {
+    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+    name: "New Restaurant",
+    publishedAt: null,
+    locale: "en", // default locale
+    // …
+  }
+  // …
+]`
+    }
+  ]}
+/>
+
+<br/>
 
 ### Modified documents {#modified}
 
