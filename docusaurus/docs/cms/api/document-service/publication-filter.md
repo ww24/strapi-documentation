@@ -46,7 +46,10 @@ The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled o
 
 ## Quick example {#quick-example}
 
-To read the drafts that have never been published, pass `status: 'draft'` (so you read the draft row) and `publicationFilter: 'never-published'` (so you only keep documents with no published version):
+To read the drafts that have never been published, pass:
+
+- `status: 'draft'` (so you read the draft row)
+- and `publicationFilter: 'never-published'` (so you only keep documents with no published version):
 
 <Endpoint
   kind="js"
