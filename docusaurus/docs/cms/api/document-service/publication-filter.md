@@ -99,8 +99,8 @@ Strapi internals refer to the groups of documents these values select as *public
 
 ## Possible use cases {#use-cases}
 
-| I want to… | `status` | `publicationFilter` | Full example |
-| ---------- | -------- | ------------------- | ------------ |
+| I want to… | Use `status` with… | Use `publicationFilter` with… | Full example |
+| ---------- | ------------------ | ----------------------------- | ------------ |
 | Find drafts never published in a given locale | `draft` | `never-published` | [Quick example](#quick-example) |
 | Find the newer drafts of entries modified since their last publication | `draft` | `modified` | [Modified documents](#modified) |
 | Find the currently-live version of those same modified entries | `published` | `modified` | [Modified documents](#modified) |
