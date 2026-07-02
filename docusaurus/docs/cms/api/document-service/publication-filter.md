@@ -238,7 +238,7 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find published entries without a draft {#published-without-draft-example}
 
-`published-without-draft` describes published rows, so it requires `status: 'published'`:
+`publicationFilter: published-without-draft` describes published rows, so it requires `status: 'published'`:
 
 <Endpoint
   kind="js"
@@ -274,7 +274,7 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find published entries with a draft {#published-with-draft-example}
 
-`published-with-draft` also describes published rows and requires `status: 'published'`:
+`publicationFilter: published-with-draft` also describes published rows and requires `status: 'published'`:
 
 <Endpoint
   kind="js"
@@ -310,7 +310,7 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find entries with a published version {#has-published-version-example}
 
-`has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). It returns rows with either `status`; the example below returns the draft rows.
+`publicationFilter: has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). It returns rows with either `status`; the example below returns the draft rows.
 
 <Endpoint
   kind="js"
@@ -346,7 +346,7 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find unmodified entries {#unmodified-example}
 
-`unmodified` selects documents whose draft has not changed since it was last published (the draft row's `updatedAt` is not more recent than the published row's). It returns rows with either `status`; the example below returns the draft rows.
+`publicationFilter: unmodified` selects documents whose draft has not changed since it was last published (the draft row's `updatedAt` is not more recent than the published row's). It returns rows with either `status`; the example below returns the draft rows.
 
 <Endpoint
   kind="js"
@@ -382,7 +382,7 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find documents published in at least one locale {#has-published-version-document-example}
 
-`has-published-version-document` considers all locales, so it matches a document as soon as one of its locales is published. With `status: 'draft'`, it returns the draft rows of every locale of those documents, including locales that were never published themselves:
+`publicationFilter: has-published-version-document` considers all locales, so it matches a document as soon as one of its locales is published. With `status: 'draft'`, it returns the draft rows of every locale of those documents, including locales that were never published themselves:
 
 <Endpoint
   kind="js"
