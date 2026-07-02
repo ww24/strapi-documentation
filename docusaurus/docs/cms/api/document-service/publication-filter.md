@@ -63,7 +63,7 @@ Strapi internals refer to the groups of documents these values select as *public
 
 | I want to… | Use `status` as… | Use `publicationFilter` as… | Full example |
 | ---------- | ------------------ | ----------------------------- | ------------ |
-| Find drafts never published in a given locale | `draft` | `never-published` | [Quick example](#quick-example) |
+| Find drafts never published in a given locale | `draft` | `never-published` | [Find never published drafts](#never-published-example) |
 | Find the newer drafts of entries modified since their last publication | `draft` | `modified` | [Modified documents](#modified) |
 | Find drafts of documents never published in any locale | `draft` | `never-published-document` | [Documents never published in any locale](#document-scoped) |
 | Find the currently-live version of those same modified entries | `published` | `modified` | [Modified documents](#modified) |
@@ -83,7 +83,7 @@ Pairing a value with the opposite `status` from the table above is valid but ret
 
 The following section lists the most common use cases summed up in the [table](#use-cases) above.
 
-### Find never published drafts
+### Find never published drafts {#never-published-example}
 
 One of the most common use cases is to find the drafts that have never been published, pass:
 
