@@ -669,6 +669,11 @@
       "number": 26844,
       "reason": "Router: Internal bug fix to permission system. Users previously saw a 'Policy Failed' warning when selecting roles for users; this fix removes that warning by allowing hidden content types to be read for relation targets. No public API or documented behavior changed.",
       "added": "2026-07-01"
+    },
+    {
+      "number": 26848,
+      "reason": "Router: Internal validation logic fix in core/utils package. Tightens internal validation function (validateMorphLikeNestedPopulate) without exposing new public APIs or user-facing features. This is utility-level validation that developers don't directly interact with. No user-facing documentation updates needed.",
+      "added": "2026-07-02"
     }
   ]
 }
