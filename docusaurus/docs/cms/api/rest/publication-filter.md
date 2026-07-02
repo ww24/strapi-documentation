@@ -24,9 +24,20 @@ Add the optional `publicationFilter` query parameter to filter results by the re
 
 </Tldr>
 
-The [REST API](/cms/api/rest) accepts an optional `publicationFilter` query parameter when [Draft & Publish](/cms/features/draft-and-publish) is enabled. With Draft & Publish, each entry can have up to 2 rows for a locale: a *draft row* (`publishedAt` is empty) and a *published row* (`publishedAt` is set).
+The [REST API](/cms/api/rest) accepts an optional `publicationFilter` query parameter when [Draft & Publish](/cms/features/draft-and-publish) is enabled. `publicationFilter` filters results by the relationship between a document's draft and published versions, for example entries never published, or entries modified since they were last published.
 
-A *cohort* is a set of documents grouped by how their draft and published rows relate, for example documents never published, or documents whose draft was edited since it was last published. You cannot get these groups by filtering on `publishedAt` yourself: questions like "was this ever published?" or "is the draft newer than the live version?" compare the 2 rows, not one. `publicationFilter` selects the cohort; [`status`](/cms/api/rest/status) then selects whether each result returns its draft or published row.
+:::note Key terms
+Strapi Draft & Publish stores each entry as up to 2 database rows for the same document and locale:
+
+- a *draft row* (`publishedAt` is empty)
+- a *published row* (`publishedAt` is set)
+
+The [`status`](/cms/api/rest/status) parameter picks which of the 2 rows to read.
+
+`publicationFilter` instead selects a *cohort*: a group of documents defined by how their draft and published rows relate (for example, never published, or draft newer than published). Some cohorts compare the 2 rows, so they cannot be expressed by filtering on `publishedAt` alone.
+:::
+
+`publicationFilter` selects the cohort first; `status` then decides which row (draft or published) is returned for each result. One rule explains most surprises on this page: when `status` is omitted, REST defaults to `status=published` **before** applying `publicationFilter`, so draft-only cohorts such as `never-published` return empty results unless you pass `status=draft`. [Understand the default `status`](#default-status) details each combination.
 
 This page shows how to query the most common cohorts over REST. For the full list of values, their exact definitions, and every `status` combination, see [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter), which is the reference for the underlying model.
 
@@ -192,13 +203,13 @@ await request(\`/api/restaurants?\${query}\`);`
 
 When `status` is omitted, REST defaults to `status=published` **before** applying `publicationFilter`. This is the most common source of unexpected empty results: a draft-only cohort such as `never-published` returns nothing under the default status. The table below shows the effect for the values used above:
 
-| Query | Result |
-| ----- | ------ |
-| `?publicationFilter=never-published` | Empty (this cohort has draft rows only, and the default status is `published`) |
-| `?status=draft&publicationFilter=never-published` | Never-published draft rows |
-| `?publicationFilter=modified` | Published rows of modified documents |
-| `?status=draft&publicationFilter=modified` | Draft rows of modified documents |
-| `?publicationFilter=published-without-draft` | Published rows with no draft (default `status=published` is correct) |
+| Query | Returns | Why |
+| ----- | ------- | --- |
+| `?publicationFilter=never-published` | Empty | The cohort has draft rows only; the default status is `published` |
+| `?status=draft&publicationFilter=never-published` | Never-published draft rows | `status=draft` reads the draft row |
+| `?publicationFilter=modified` | Published rows of modified documents | The default `status=published` reads the live row |
+| `?status=draft&publicationFilter=modified` | Draft rows of modified documents | `status=draft` reads the newer draft |
+| `?publicationFilter=published-without-draft` | Published rows with no draft | The default `status=published` is correct here |
 
 The Document Service API defaults to `status=draft` instead. See [Document Service API: default `status`](/cms/api/document-service/publication-filter#default-status) for the full comparison across API surfaces.
 
