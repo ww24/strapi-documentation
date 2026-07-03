@@ -20469,6 +20469,20 @@ The `strapi install`, `strapi uninstall`, `strapi new`, and `strapi watch-admin`
 
 </details>
 
+## Security defaults for new projects
+
+Projects scaffolded with `create-strapi-app` include security-hardened defaults pre-configured in the generated `config/` files and `.env`:
+
+| Default | Configuration location | Purpose |
+|---|---|---|
+| `rest.strictParams: true` and `documents.strictParams: true` | `config/api.*` | Rejects requests with unknown query or body parameters (see [API configuration](/cms/configurations/api)). |
+| `jwtManagement: 'refresh'` with `sessions.httpOnly: true` | `config/plugins.*` (users-permissions) | Enables refresh-token-based auth with HTTP-only session cookies for the Users & Permissions feature (see [Users & Permissions](/cms/features/users-permissions#jwt-management-modes)). |
+| `upload.config.security.allowedTypes` and `upload.config.security.deniedTypes` | `config/plugins.*` (upload) | Restricts uploads to approved file types and blocks dangerous extensions (see [Media Library](/cms/features/media-library#available-options)). |
+| `webhooks.populateRelations: false` | `config/server.*` | Prevents relation data from being included in webhook payloads (see [Server configuration](/cms/configurations/server)). |
+| `JWT_SECRET` | `.env` | A randomly generated secret is included in the scaffolded `.env` file. |
+
+All defaults can be adjusted in the corresponding configuration files to match your project's requirements.
+
 ## Development
 
 These commands start and build your Strapi application during development.
@@ -21534,6 +21548,10 @@ Since v5.24.0, Strapi stores admin authentication data in secure, HTTP-only cook
 
 Strapi's session management system supports both admin panel authentication and Content API authentication through the [Users & Permissions feature](/cms/features/users-permissions). The system provides:
 
+:::tip New projects
+Apps scaffolded with `create-strapi-app` have `jwtManagement: 'refresh'` and `sessions.httpOnly: true` set by default for the Users & Permissions feature in the generated `config/plugins.*` file. This enables refresh-token-based authentication with HTTP-only session cookies for Content API users out of the box.
+:::
+
 - Short-lived access tokens (typically 30 minutes) for API requests
 - Refresh tokens for obtaining new access tokens
 - Device-specific sessions for targeted logout
@@ -21832,6 +21850,8 @@ If the `rest.maxLimit` value is less than the `rest.defaultLimit` value, `maxLim
 
 :::tip
 `rest.strictParams` applies to incoming REST Content API requests (query and body). `documents.strictParams` applies to parameters passed to `strapi.documents()` in server-side code. You can enable one or both in the same config file.
+
+Apps scaffolded with `create-strapi-app` have both `rest.strictParams` and `documents.strictParams` set to `true` by default in the generated `config/api.*` file.
 :::
 
 **Example:**
@@ -26284,6 +26304,7 @@ The `/config/server.js` file can include the following parameters:
 | `http.serverOptions`                | Options passed to http `createServer`                                                                                                                                                                                                                                                                                                                                       | [http.serverOptions](https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener)    | {}                  |
 | `transfer.remote.enabled`           | Toggle the ability to use the [transfer feature](/cms/data-management/transfer)                                                                                                                                                                                                                                                                | boolean                                                                                           | `true`              |
 | `transfer.remote.assetIdleTimeoutMs` | Timeout in milliseconds without incoming data before an asset stream is considered stalled when using `strapi transfer --from` to pull from a remote instance. Increase this value when transferring large files or when working on slow connections. | integer | <!-- TODO: confirm default value from strapi/strapi codebase --> |
+| `webhooks.populateRelations`        | When `true`, relation fields are included in webhook event payloads. Set to `false` to keep payloads lightweight and avoid exposing relational data in outgoing webhook requests. | boolean | `true` |                                                                                                                                                                                                                                                                                                                            | boolean                                                                                           | `true`              |
 | `logger.startup.enabled`            | Toggle the startup message in the terminal                                                                                                                                                                                                                                                                                                                              | boolean                                                                                           | `true`              |
 | `logger.updates.enabled`            | Toggle the notification message about updating strapi in the terminal                                                                                                                                                                                                                                                                                                       | boolean                                                                                           | `true`              |
 | `openapi`                            | [OpenAPI](/cms/api/openapi) endpoint configuration. Both endpoints use `access: 'disabled'` by default and are not registered.                                                                                                                                                                                                                                                                                 | object                                                                                            |                     |
@@ -26367,6 +26388,9 @@ module.exports = ({ env }) => ({
       enabled: false,
     },
   },
+  webhooks: {
+    populateRelations: false,
+  },
   logger: {
     updates: {
       enabled: false,
@@ -26403,6 +26427,9 @@ module.exports = ({ env }) => ({
     remote: {
       enabled: false,
     },
+  },
+  webhooks: {
+    populateRelations: false,
   },
   logger: {
     updates: {
@@ -33082,6 +33109,10 @@ The Upload plugin validates files based on their actual MIME type rather than th
 Only files matching the defined security rules are uploaded.
 
 The `security` configuration provides 2 options: `allowedTypes` or `deniedTypes`, which let you control which file types can or cannot be uploaded.
+
+:::tip New projects
+Apps scaffolded with `create-strapi-app` include a pre-configured `security` block in the generated `config/plugins.*` file, with `allowedTypes` covering common image, video, audio, and document formats, and `deniedTypes` blocking executable and shell script types.
+:::
 
 :::note
 You can use `allowedTypes` and `deniedTypes` separately or together to fine-tune which files are accepted. Files must match an allowed type and must not match any denied type. If you use a wildcard like `*` in `allowedTypes`, you can narrow down the validation by specifying exceptions in `deniedTypes`.

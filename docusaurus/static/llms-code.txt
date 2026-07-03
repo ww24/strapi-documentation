@@ -20025,6 +20025,9 @@ module.exports = ({ env }) => ({
       enabled: false,
     },
   },
+  webhooks: {
+    populateRelations: false,
+  },
   logger: {
     updates: {
       enabled: false,
@@ -20065,6 +20068,9 @@ export default ({ env }) => ({
     remote: {
       enabled: false,
     },
+  },
+  webhooks: {
+    populateRelations: false,
   },
   logger: {
     updates: {
