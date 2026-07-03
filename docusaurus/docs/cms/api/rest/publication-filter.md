@@ -89,7 +89,8 @@ This parameter combination works only on a given locale; to find these documents
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?status=draft&publicationFilter=never-published"
+  codePath="/api/restaurants?status=draft&publicationFilter=never-published"
   title="Get draft restaurants that have never been published for their locale"
   description="Return the drafts that have never been published for their locale."
   codeTabs={[
@@ -145,7 +146,8 @@ A document counts as published as soon as one of its locales is published: the d
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?status=draft&publicationFilter=never-published-document"
+  codePath="/api/restaurants?status=draft&publicationFilter=never-published-document"
   title="Get drafts of restaurants never published in any locale"
   description="Return the drafts of documents never published in any locale."
   codeTabs={[
@@ -201,7 +203,8 @@ For instance, with `status=draft`, the query returns the draft versions:
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?status=draft&publicationFilter=modified"
+  codePath="/api/restaurants?status=draft&publicationFilter=modified"
   title="Get the draft versions of modified restaurants"
   description="Return the draft versions of documents with unpublished changes."
   codeTabs={[
@@ -254,7 +257,8 @@ With `status=published` (the REST default), the same query returns the currently
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?publicationFilter=modified"
+  codePath="/api/restaurants?publicationFilter=modified"
   title="Get the currently live version of modified restaurants"
   description="Return the currently live versions of documents with unpublished changes."
   codeTabs={[
@@ -309,7 +313,8 @@ For instance, with `status=draft`, the query returns the draft versions:
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?status=draft&publicationFilter=unmodified"
+  codePath="/api/restaurants?status=draft&publicationFilter=unmodified"
   title="Get the draft versions of unmodified restaurants"
   description="Return the draft versions of documents unchanged since their last publication."
   codeTabs={[
@@ -362,7 +367,8 @@ With `status=published` (the REST default), the same query returns the currently
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?publicationFilter=unmodified"
+  codePath="/api/restaurants?publicationFilter=unmodified"
   title="Get the currently live version of unmodified restaurants"
   description="Return the currently live versions of documents unchanged since their last publication."
   codeTabs={[
@@ -415,7 +421,8 @@ await request(\`/api/restaurants?\${query}\`);`
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?publicationFilter=published-without-draft"
+  codePath="/api/restaurants?publicationFilter=published-without-draft"
   title="Get published restaurants with no draft for the same locale"
   description="Return published documents with no matching draft version for the same locale."
   codeTabs={[
@@ -468,7 +475,8 @@ await request(\`/api/restaurants?\${query}\`);`
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?publicationFilter=published-with-draft"
+  codePath="/api/restaurants?publicationFilter=published-with-draft"
   title="Get published restaurants that also have a draft for the same locale"
   description="Return published documents that also have a matching draft version for the same locale."
   codeTabs={[
@@ -523,7 +531,8 @@ For instance, with `status=draft`, the query returns the draft versions:
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?status=draft&publicationFilter=has-published-version"
+  codePath="/api/restaurants?status=draft&publicationFilter=has-published-version"
   title="Get the draft versions of restaurants that also have a published version"
   description="Return the draft versions of documents that also have a published version for the same locale."
   codeTabs={[
@@ -576,7 +585,8 @@ With `status=published` (the REST default), the same query returns the currently
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?publicationFilter=has-published-version"
+  codePath="/api/restaurants?publicationFilter=has-published-version"
   title="Get the currently live version of restaurants that also have a draft"
   description="Return the currently live versions of documents that also have a published version for the same locale."
   codeTabs={[
@@ -629,7 +639,8 @@ await request(\`/api/restaurants?\${query}\`);`
 
 <Endpoint
   method="GET"
-  path="/api/restaurants"
+  path="/api/restaurants?status=draft&publicationFilter=has-published-version-document"
+  codePath="/api/restaurants?status=draft&publicationFilter=has-published-version-document"
   title="Get the drafts of restaurants published in at least one locale"
   description="Return the draft versions of documents published in at least one locale."
   codeTabs={[
