@@ -156,7 +156,7 @@ jobs:
               prTypeLabel = 'pr: chore';
             } else if (hasNewFile) {
               prTypeLabel = 'pr: new content';
-            } else if (totalChanges > 10) {
+            } else if (totalChanges > 30) {
               prTypeLabel = 'pr: updated content';
             } else {
               prTypeLabel = 'pr: chore';
