@@ -121,7 +121,9 @@ This parameter combination works only on a given locale; to find these documents
 
 ### Find drafts never published in any locale {#never-published-document}
 
-`publicationFilter: never-published-document` considers all locales, so a multi-locale document with even one published locale is excluded entirely, including its draft-only locales:
+`publicationFilter: never-published-document` returns documents that have never been published in any locale. It looks at the whole document across all its locales, not one locale at a time.
+
+As a result, a document counts as published as soon as one of its locales is published: the document is then left out, even the locales that only exist as a draft. The example below returns the draft rows of documents that were never published anywhere:
 
 <Endpoint
   kind="js"
@@ -142,13 +144,13 @@ This parameter combination works only on a given locale; to find these documents
       status: 200,
       statusText: 'OK',
       body: `[
-  {
-    documentId: "d41r46wac4xix5vpba7561at",
-    name: "New Restaurant",
-    publishedAt: null,
-    locale: "en", // default locale
-    // …
-  }
+    {
+      documentId: "d41r46wac4xix5vpba7561at",
+      name: "New Restaurant",
+      publishedAt: null,
+      locale: "en", // default locale
+      // …
+    }
   // …
 ]`
     }
