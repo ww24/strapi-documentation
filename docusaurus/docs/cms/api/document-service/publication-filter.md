@@ -159,10 +159,6 @@ A document counts as published as soon as one of its locales is published: the d
   ]}
 />
 
-:::note Content Manager mapping
-In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`).
-:::
-
 ### Find modified documents {#modified}
 
 `publicationFilter: modified` selects documents whose draft has modified but unpublished changes. `status` then decides which version of those documents you get back.
@@ -349,7 +345,7 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find published documents with a draft {#published-with-draft}
 
-`publicationFilter: published-with-draft` selects published documents that also have a draft.
+`publicationFilter: published-with-draft` selects published documents that also have a draft. Unlike `published-without-draft`, it keeps only the published documents that still have a draft counterpart.
 
 `published-with-draft` must be paired with `status: 'published'`:
 
@@ -526,16 +522,36 @@ If the requested document (and locale, when applicable) does not match the filte
 
 Without `publicationFilter`, `count({ status: 'draft' })` counts every draft version, including drafts whose document already has a published version. Add `publicationFilter` to count only the documents that match a given value (see the [`status` documentation](/cms/api/document-service/status#count)):
 
-```js
-const neverPublishedCount = await strapi
-  .documents('api::restaurant.restaurant')
-  .count({
-    status: 'draft',
-    publicationFilter: 'never-published',
-  });
-```
+<Endpoint
+  kind="js"
+  path="strapi.documents().count()"
+  title="count() with publicationFilter: 'never-published'"
+  description="Count only the documents that match a given value."
+  codeTabs={[
+    {
+      label: 'JavaScript',
+      code: `const neverPublishedCount = await strapi
+    .documents('api::restaurant.restaurant')
+    .count({
+      status: 'draft',
+      publicationFilter: 'never-published',
+    });`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: 'OK',
+      body: `12 // the number of never-published drafts`
+    }
+  ]}
+/>
 
 ## Combination with other parameters {#combine}
 
 `publicationFilter` is combined with other query parameters as a logical `AND`, including [`filters`](/cms/api/document-service/filters) and [`populate`](/cms/api/document-service/populate). When populating draft & publish relations, nested queries inherit the same filter logic.
+
+## Content Manager mapping {#content-manager}
+
+In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`).
 
