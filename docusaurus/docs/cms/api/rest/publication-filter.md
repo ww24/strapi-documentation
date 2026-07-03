@@ -91,6 +91,7 @@ This parameter combination works only on a given locale; to find these documents
   method="GET"
   path="/api/restaurants?status=draft&publicationFilter=never-published"
   title="Get draft restaurants that have never been published for their locale"
+  description="Return the drafts that have never been published for their locale."
   codeTabs={[
     {
       label: "JavaScript",
@@ -141,6 +142,7 @@ A document counts as published as soon as one of its locales is published: the d
   method="GET"
   path="/api/restaurants?status=draft&publicationFilter=never-published-document"
   title="Get drafts of restaurants never published in any locale"
+  description="Return the drafts of documents never published in any locale."
   codeTabs={[
     {
       label: "JavaScript",
@@ -191,6 +193,7 @@ For instance, with `status=draft`, the query returns the draft versions:
   method="GET"
   path="/api/restaurants?status=draft&publicationFilter=modified"
   title="Get the draft versions of modified restaurants"
+  description="Return the draft versions of documents with unpublished changes."
   codeTabs={[
     {
       label: "JavaScript",
@@ -238,6 +241,7 @@ With `status=published` (the REST default), the same query returns the currently
   method="GET"
   path="/api/restaurants?publicationFilter=modified"
   title="Get the currently live version of modified restaurants"
+  description="Return the currently live versions of documents with unpublished changes."
   codeTabs={[
     {
       label: "JavaScript",
@@ -287,6 +291,7 @@ For instance, with `status=draft`, the query returns the draft versions:
   method="GET"
   path="/api/restaurants?status=draft&publicationFilter=unmodified"
   title="Get the draft versions of unmodified restaurants"
+  description="Return the draft versions of documents unchanged since their last publication."
   codeTabs={[
     {
       label: "JavaScript",
@@ -334,6 +339,7 @@ With `status=published` (the REST default), the same query returns the currently
   method="GET"
   path="/api/restaurants?publicationFilter=unmodified"
   title="Get the currently live version of unmodified restaurants"
+  description="Return the currently live versions of documents unchanged since their last publication."
   codeTabs={[
     {
       label: "JavaScript",
@@ -381,6 +387,7 @@ await request(\`/api/restaurants?\${query}\`);`
   method="GET"
   path="/api/restaurants?publicationFilter=published-without-draft"
   title="Get published restaurants with no draft for the same locale"
+  description="Return published documents with no matching draft version for the same locale."
   codeTabs={[
     {
       label: "JavaScript",
@@ -428,6 +435,7 @@ await request(\`/api/restaurants?\${query}\`);`
   method="GET"
   path="/api/restaurants?publicationFilter=published-with-draft"
   title="Get published restaurants that also have a draft for the same locale"
+  description="Return published documents that also have a matching draft version for the same locale."
   codeTabs={[
     {
       label: "JavaScript",
@@ -477,6 +485,7 @@ For instance, with `status=draft`, the query returns the draft versions:
   method="GET"
   path="/api/restaurants?status=draft&publicationFilter=has-published-version"
   title="Get the draft versions of restaurants that also have a published version"
+  description="Return the draft versions of documents that also have a published version for the same locale."
   codeTabs={[
     {
       label: "JavaScript",
@@ -524,6 +533,7 @@ With `status=published` (the REST default), the same query returns the currently
   method="GET"
   path="/api/restaurants?publicationFilter=has-published-version"
   title="Get the currently live version of restaurants that also have a draft"
+  description="Return the currently live versions of documents that also have a published version for the same locale."
   codeTabs={[
     {
       label: "JavaScript",
@@ -571,6 +581,7 @@ await request(\`/api/restaurants?\${query}\`);`
   method="GET"
   path="/api/restaurants?status=draft&publicationFilter=has-published-version-document"
   title="Get the drafts of restaurants published in at least one locale"
+  description="Return the draft versions of documents published in at least one locale."
   codeTabs={[
     {
       label: "JavaScript",
