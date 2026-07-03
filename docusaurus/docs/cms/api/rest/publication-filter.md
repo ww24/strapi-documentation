@@ -28,7 +28,7 @@ The `publicationFilter` is a query parameter that, combined with [the `status` p
 
 While `status` answers "do I want the draft or the published version?", the `publicationFilter` parameter answers a different question: "which documents do I want, based on how their draft and published versions relate?". This is useful for example to find documents that were never published, or documents whose draft has unsaved changes compared to what is live.
 
-The [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter) page is the canonical reference for the underlying draft and published model; this page focuses on using the parameter over REST.
+The underlying model behind how `publicationFilter` works is handled on the back-end server by the [Document Service API](/cms/api/document-service/publication-filter). The present page follows the exact same structure and explanations, but with examples tailored for the REST API, so you don't have to jump between 2 different pages.
 
 :::prerequisites
 The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled on the content-type. If Draft & Publish is disabled, `publicationFilter` has no effect.
