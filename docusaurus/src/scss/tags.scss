@@ -1,0 +1,20 @@
+/** Component: Doc footer tags */
+@use './mixins' as *;
+
+article a[class*="tag_"] {
+  --custom-tag-bg: var(--strapi-primary-100);
+  --docusaurus-tag-list-border: var(--custom-tag-bg);
+  background: var(--custom-tag-bg);
+  transition: border var(--ifm-transition-fast), background var(--ifm-transition-fast);
+}
+
+article a[class*="tag_"]:hover {
+  --custom-tag-bg: var(--strapi-primary-200);
+  --docusaurus-tag-list-border: var(--custom-tag-bg);
+}
+
+@include dark {
+  article a[class*="tag_"]:hover {
+    --custom-tag-bg: var(--strapi-neutral-150);
+  }
+}
