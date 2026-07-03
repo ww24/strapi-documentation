@@ -102,10 +102,10 @@ This parameter combination works only on a given locale; to find these documents
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  status: 'draft',
-  publicationFilter: 'never-published',
-}, {
-  encodeValuesOnly: true, // prettify URL
+    status: 'draft',
+    publicationFilter: 'never-published',
+  }, {
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -116,22 +116,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
-      "name": "New Restaurant",
-      "publishedAt": null,
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+        "name": "New Restaurant",
+        "publishedAt": null,
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
