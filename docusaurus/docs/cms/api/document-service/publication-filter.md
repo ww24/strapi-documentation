@@ -377,12 +377,14 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find documents with a published version {#has-published-version}
 
-`publicationFilter: has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). It returns versions with either `status`; the example below returns the draft versions.
+`publicationFilter: has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). `status` then decides which version of those documents you get back.
+
+For instance, with `status: 'draft'`, the query returns the draft versions:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
-  title="findMany() with publicationFilter: 'has-published-version'"
+  title="findMany() with publicationFilter: 'has-published-version' and status: 'draft'"
   description="Return the draft versions of documents that also have a published version for the same locale."
   codeTabs={[
     {
@@ -398,13 +400,48 @@ With `status: 'published'`, the same query returns the currently live version of
       status: 200,
       statusText: 'OK',
       body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "Biscotte Restaurant",
-    publishedAt: null,
-    locale: "en", // default locale
-    // …
-  }
+    {
+      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+      name: "Biscotte Restaurant",
+      publishedAt: null,
+      locale: "en", // default locale
+      // …
+    }
+  // …
+]`
+    }
+  ]}
+/>
+
+<br/>
+With `status: 'published'`, the same query returns the currently live version of those documents instead:
+
+<Endpoint
+  kind="js"
+  path="strapi.documents().findMany()"
+  title="findMany() with publicationFilter: 'has-published-version' and status: 'published'"
+  description="Return the currently live versions of documents that also have a draft for the same locale."
+  codeTabs={[
+    {
+      label: 'JavaScript',
+      code: `await strapi.documents('api::restaurant.restaurant').findMany({
+    status: 'published',
+    publicationFilter: 'has-published-version',
+});`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: 'OK',
+      body: `[
+    {
+      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+      name: "Biscotte Restaurant",
+      publishedAt: "2024-03-14T15:40:45.330Z",
+      locale: "en", // default locale
+      // …
+    }
   // …
 ]`
     }
