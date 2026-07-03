@@ -32384,6 +32384,72 @@ useEffect(() => {
 
 
 
+# How to reuse built-in admin panel components in plugins
+Source: https://docs.strapi.io/cms/plugins-development/guides/reuse-admin-panel-components
+
+## Access a component from the registry
+Description: Built-in admin panel components are stored in the components object of the Strapi app context.
+(Source: https://docs.strapi.io/cms/plugins-development/guides/reuse-admin-panel-components#access-a-component-from-the-registry)
+
+Language: JavaScript
+File path: N/A
+
+```js
+import { useStrapiApp } from '@strapi/admin/strapi-admin';
+
+const components = useStrapiApp('MyCustomComponent', (state) => state.components);
+const MediaLibraryDialog = components['media-library'];
+```
+
+
+## Reuse the Media Library dialog
+Description: The following example renders the dialog from a custom component and pre-selects assets when it opens:
+(Source: https://docs.strapi.io/cms/plugins-development/guides/reuse-admin-panel-components#reuse-the-media-library-dialog)
+
+Language: JavaScript
+File path: N/A
+
+```js
+import { useState } from 'react';
+import { useStrapiApp } from '@strapi/admin/strapi-admin';
+
+export function MyCustomComponent() {
+  const [isMediaLibraryOpen, setIsMediaLibraryOpen] = useState(false);
+  const components = useStrapiApp('MyCustomComponent', (state) => state.components);
+  const MediaLibraryDialog = components['media-library'];
+
+  // Assets to pre-select when the dialog opens.
+  // Each entry is a full Media Library asset object, not just an id and name.
+  const initialAssets = [
+    { id: 1, name: 'image1.jpg' /* ...other asset fields */ },
+    { id: 2, name: 'image2.png' /* ...other asset fields */ },
+  ];
+
+  const handleSelectAssets = (assets) => {
+    // Handle the assets the user selected
+    console.log('Selected assets:', assets);
+    setIsMediaLibraryOpen(false);
+  };
+
+  return (
+    <>
+      <button type="button" onClick={() => setIsMediaLibraryOpen(true)}>
+        Open the Media Library
+      </button>
+      {isMediaLibraryOpen && (
+        <MediaLibraryDialog
+          initiallySelectedAssets={initialAssets}
+          onSelectAssets={handleSelectAssets}
+          onClose={() => setIsMediaLibraryOpen(false)}
+        />
+      )}
+    </>
+  );
+}
+```
+
+
+
 # How to store and access data from a Strapi plugin
 Source: https://docs.strapi.io/cms/plugins-development/guides/store-and-access-data
 
