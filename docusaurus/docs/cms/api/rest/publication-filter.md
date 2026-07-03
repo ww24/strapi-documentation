@@ -158,10 +158,10 @@ A document counts as published as soon as one of its locales is published: the d
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  status: 'draft',
-  publicationFilter: 'never-published-document',
+    status: 'draft',
+    publicationFilter: 'never-published-document',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -172,22 +172,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "d41r46wac4xix5vpba7561at",
-      "name": "New Restaurant",
-      "publishedAt": null,
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "d41r46wac4xix5vpba7561at",
+        "name": "New Restaurant",
+        "publishedAt": null,
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
@@ -214,10 +214,10 @@ For instance, with `status=draft`, the query returns the draft versions:
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  status: 'draft',
-  publicationFilter: 'modified',
+    status: 'draft',
+    publicationFilter: 'modified',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -228,22 +228,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
-      "name": "Biscotte Restaurant (updated)",
-      "publishedAt": null,
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+        "name": "Biscotte Restaurant (updated)",
+        "publishedAt": null,
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
@@ -267,9 +267,9 @@ With `status=published` (the REST default), the same query returns the currently
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  publicationFilter: 'modified',
+    publicationFilter: 'modified',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -280,22 +280,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
-      "name": "Biscotte Restaurant",
-      "publishedAt": "2024-03-14T15:40:45.330Z",
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+        "name": "Biscotte Restaurant",
+        "publishedAt": "2024-03-14T15:40:45.330Z",
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
@@ -322,10 +322,10 @@ For instance, with `status=draft`, the query returns the draft versions:
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  status: 'draft',
-  publicationFilter: 'unmodified',
+    status: 'draft',
+    publicationFilter: 'unmodified',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -336,22 +336,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
-      "name": "Biscotte Restaurant",
-      "publishedAt": null,
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+        "name": "Biscotte Restaurant",
+        "publishedAt": null,
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
@@ -375,9 +375,9 @@ With `status=published` (the REST default), the same query returns the currently
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  publicationFilter: 'unmodified',
+    publicationFilter: 'unmodified',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -388,22 +388,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
-      "name": "Biscotte Restaurant",
-      "publishedAt": "2024-03-14T15:40:45.330Z",
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+        "name": "Biscotte Restaurant",
+        "publishedAt": "2024-03-14T15:40:45.330Z",
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
@@ -428,9 +428,9 @@ await request(\`/api/restaurants?\${query}\`);`
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  publicationFilter: 'published-without-draft',
+    publicationFilter: 'published-without-draft',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -441,22 +441,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "j0klm1n2o3p4q5r6s7t8u9v",
-      "name": "Legacy Restaurant",
-      "publishedAt": "2024-01-10T09:15:00.000Z",
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "j0klm1n2o3p4q5r6s7t8u9v",
+        "name": "Legacy Restaurant",
+        "publishedAt": "2024-01-10T09:15:00.000Z",
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
@@ -481,9 +481,9 @@ await request(\`/api/restaurants?\${query}\`);`
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  publicationFilter: 'published-with-draft',
+    publicationFilter: 'published-with-draft',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -494,22 +494,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
-      "name": "Biscotte Restaurant",
-      "publishedAt": "2024-03-14T15:40:45.330Z",
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+        "name": "Biscotte Restaurant",
+        "publishedAt": "2024-03-14T15:40:45.330Z",
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
@@ -536,10 +536,10 @@ For instance, with `status=draft`, the query returns the draft versions:
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  status: 'draft',
-  publicationFilter: 'has-published-version',
+    status: 'draft',
+    publicationFilter: 'has-published-version',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -550,22 +550,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
-      "name": "Biscotte Restaurant",
-      "publishedAt": null,
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+        "name": "Biscotte Restaurant",
+        "publishedAt": null,
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
@@ -589,9 +589,9 @@ With `status=published` (the REST default), the same query returns the currently
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  publicationFilter: 'has-published-version',
+    publicationFilter: 'has-published-version',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -602,22 +602,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
-      "name": "Biscotte Restaurant",
-      "publishedAt": "2024-03-14T15:40:45.330Z",
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+        "name": "Biscotte Restaurant",
+        "publishedAt": "2024-03-14T15:40:45.330Z",
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
@@ -642,10 +642,10 @@ await request(\`/api/restaurants?\${query}\`);`
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
-  status: 'draft',
-  publicationFilter: 'has-published-version-document',
+    status: 'draft',
+    publicationFilter: 'has-published-version-document',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/restaurants?\${query}\`);`
@@ -656,22 +656,22 @@ await request(\`/api/restaurants?\${query}\`);`
       status: 200,
       statusText: "OK",
       body: `{
-  "data": [
-    {
-      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
-      "name": "Biscotte Restaurant",
-      "publishedAt": null,
-      "locale": "en"
+    "data": [
+      {
+        "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+        "name": "Biscotte Restaurant",
+        "publishedAt": null,
+        "locale": "en"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "pageCount": 1,
+        "total": 1
+      }
     }
-  ],
-  "meta": {
-    "pagination": {
-      "page": 1,
-      "pageSize": 25,
-      "pageCount": 1,
-      "total": 1
-    }
-  }
 }`
     }
   ]}
