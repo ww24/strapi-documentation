@@ -47,6 +47,8 @@ The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled o
 | `never-published-document` | Documents never published in any locale |
 | `has-published-version-document` | Documents published in at least one locale<br/>(useful when [i18n](/cms/features/internationalization) is enabled) |
 
+For detailed examples of how to use the `publicationFilter` values, including with the `status` parameter, see the [possible use cases](#use-cases) table.
+
 :::note Notes
 * Unknown values raise a validation error. 
 * Values ending in `-document` consider all locales of a document, which matters when [Internationalization (i18n)](/cms/features/internationalization) is enabled: for example, `never-published-document` excludes a document as soon as one of its locales is published. All other values consider one locale at a time. Without i18n, both variants behave the same.
@@ -73,8 +75,8 @@ The following table lists many possible use cases, illustrating how the `status`
 | [Use with `findOne()` and `findFirst()`](#find-one-find-first) | `draft` or `published` | any value |
 | [Count only matching documents](#count) | `draft` or `published` | any value |
 
-:::caution
-Pairing a value with the opposite `status` from the table above is valid but returns nothing rather than an error: for example, `never-published` with `status: 'published'` returns an empty result, because these documents have no published counterpart yet.
+:::note
+Pairing a value with the opposite `status` from the table above is valid but returns nothing rather than an error: for example, `never-published` with `status: 'published'` returns an empty result, because these documents have no published version yet.
 :::
 
 ## Examples
@@ -121,9 +123,9 @@ This parameter combination works only on a given locale; to find these documents
 
 ### Find drafts never published in any locale {#never-published-document}
 
-`publicationFilter: never-published-document` returns documents that have never been published in any locale. It looks at the whole document across all its locales, not one locale at a time.
+`publicationFilter: never-published-document` returns documents that have never been published in any locale. It looks at the whole document across all its locales, not one locale at a time.  To find these documents for a given locale only, [use `never-published`](#never-published) instead.
 
-As a result, a document counts as published as soon as one of its locales is published: the document is then left out, even the locales that only exist as a draft. The example below returns the draft rows of documents that were never published anywhere:
+A document counts as published as soon as one of its locales is published: the document is then left out, even the locales that only exist as a draft. The example below returns the draft rows of documents that were never published anywhere:
 
 <Endpoint
   kind="js"
@@ -157,9 +159,13 @@ As a result, a document counts as published as soon as one of its locales is pub
   ]}
 />
 
+:::note Note: Content Manager mapping
+In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`).
+:::
+
 ### Find modified documents {#modified}
 
-`publicationFilter: modified` selects documents whose draft has unpublished changes. `status` then decides which version of those documents you get back.
+`publicationFilter: modified` selects documents whose draft has modified but unpublished changes. `status` then decides which version of those documents you get back.
 
 For instance, with `status: 'draft'`, the query returns the pending draft versions:
 
@@ -305,7 +311,9 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find published documents without a draft {#published-without-draft}
 
-`publicationFilter: published-without-draft` selects published documents that have no draft counterpart. It describes published rows, so it must be paired with `status: 'published'`:
+`publicationFilter: published-without-draft` selects published documents that have no draft counterpart.
+
+`published-without-draft` must be paired with `status: 'published'`:
 
 <Endpoint
   kind="js"
@@ -341,7 +349,9 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find published documents with a draft {#published-with-draft}
 
-`publicationFilter: published-with-draft` selects published documents that also have a draft. It describes published rows, so it must be paired with `status: 'published'`:
+`publicationFilter: published-with-draft` selects published documents that also have a draft.
+
+`published-with-draft` must be paired with `status: 'published'`:
 
 <Endpoint
   kind="js"
@@ -362,13 +372,13 @@ With `status: 'published'`, the same query returns the currently live version of
       status: 200,
       statusText: 'OK',
       body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "Biscotte Restaurant",
-    publishedAt: "2024-03-14T15:40:45.330Z",
-    locale: "en", // default locale
-    // …
-  }
+    {
+      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+      name: "Biscotte Restaurant",
+      publishedAt: "2024-03-14T15:40:45.330Z",
+      locale: "en", // default locale
+      // …
+    }
   // …
 ]`
     }
@@ -471,13 +481,13 @@ With `status: 'published'`, the same query returns the currently live version of
       status: 200,
       statusText: 'OK',
       body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "Biscotte Restaurant",
-    publishedAt: null,
-    locale: "en", // published in at least one locale
-    // …
-  }
+    {
+      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+      name: "Biscotte Restaurant",
+      publishedAt: null,
+      locale: "en", // published in at least one locale
+      // …
+    }
   // …
 ]`
     }
@@ -525,10 +535,7 @@ const neverPublishedCount = await strapi
   });
 ```
 
-### Combine with other parameters {#combine}
+## Combination with other parameters {#combine}
 
 `publicationFilter` is combined with other query parameters as a logical `AND`, including [`filters`](/cms/api/document-service/filters) and [`populate`](/cms/api/document-service/populate). When populating draft & publish relations, nested queries inherit the same filter logic.
 
-:::note Note: Content Manager mapping
-In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`).
-:::
