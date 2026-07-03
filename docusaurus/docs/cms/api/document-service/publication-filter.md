@@ -161,7 +161,7 @@ As a result, a document counts as published as soon as one of its locales is pub
 
 `publicationFilter: modified` selects documents whose draft has unpublished changes. `status` then decides which version of those documents you get back.
 
-With `status: 'draft'`, the query returns the pending draft versions:
+For instance, with `status: 'draft'`, the query returns the pending draft versions:
 
 <Endpoint
   kind="js"
@@ -182,13 +182,13 @@ With `status: 'draft'`, the query returns the pending draft versions:
       status: 200,
       statusText: 'OK',
       body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "Biscotte Restaurant (updated)",
-    publishedAt: null,
-    locale: "en", // default locale
-    // …
-  }
+    {
+      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+      name: "Biscotte Restaurant (updated)",
+      publishedAt: null,
+      locale: "en", // default locale
+      // …
+    }
   // …
 ]`
     }
@@ -217,13 +217,13 @@ With `status: 'published'`, the same query returns the currently live version of
       status: 200,
       statusText: 'OK',
       body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "Biscotte Restaurant",
-    publishedAt: "2024-03-14T15:40:45.330Z",
-    locale: "en", // default locale
-    // …
-  }
+    {
+      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+      name: "Biscotte Restaurant",
+      publishedAt: "2024-03-14T15:40:45.330Z",
+      locale: "en", // default locale
+      // …
+    }
   // …
 ]`
     }
