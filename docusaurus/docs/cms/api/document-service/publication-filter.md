@@ -231,79 +231,7 @@ With `status: 'published'`, the same query returns the currently live version of
   ]}
 />
 
-### Find published entries without a draft {#published-without-draft-example}
-
-`publicationFilter: published-without-draft` describes published rows, so it requires `status: 'published'`:
-
-<Endpoint
-  kind="js"
-  path="strapi.documents().findMany()"
-  title="findMany() with publicationFilter: 'published-without-draft'"
-  description="Return published entries with no matching draft row for the same locale."
-  codeTabs={[
-    {
-      label: 'JavaScript',
-      code: `await strapi.documents('api::restaurant.restaurant').findMany({
-    status: 'published',
-    publicationFilter: 'published-without-draft',
-});`
-    }
-  ]}
-  responses={[
-    {
-      status: 200,
-      statusText: 'OK',
-      body: `[
-  {
-    documentId: "j0klm1n2o3p4q5r6s7t8u9v",
-    name: "Legacy Restaurant",
-    publishedAt: "2024-01-10T09:15:00.000Z",
-    locale: "en", // default locale
-    // …
-  }
-  // …
-]`
-    }
-  ]}
-/>
-
-### Find published entries with a draft {#published-with-draft-example}
-
-`publicationFilter: published-with-draft` also describes published rows and requires `status: 'published'`:
-
-<Endpoint
-  kind="js"
-  path="strapi.documents().findMany()"
-  title="findMany() with publicationFilter: 'published-with-draft'"
-  description="Return published entries that also have a matching draft row for the same locale."
-  codeTabs={[
-    {
-      label: 'JavaScript',
-      code: `await strapi.documents('api::restaurant.restaurant').findMany({
-    status: 'published',
-    publicationFilter: 'published-with-draft',
-});`
-    }
-  ]}
-  responses={[
-    {
-      status: 200,
-      statusText: 'OK',
-      body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "Biscotte Restaurant",
-    publishedAt: "2024-03-14T15:40:45.330Z",
-    locale: "en", // default locale
-    // …
-  }
-  // …
-]`
-    }
-  ]}
-/>
-
-### Find unmodified entries {#unmodified-example}
+### Find unmodified documents {#unmodified-example}
 
 `publicationFilter: unmodified` selects documents whose draft has not changed since it was last published (the draft row's `updatedAt` is not more recent than the published row's). It returns rows with either `status`; the example below returns the draft rows.
 
@@ -339,7 +267,79 @@ With `status: 'published'`, the same query returns the currently live version of
   ]}
 />
 
-### Find entries with a published version {#has-published-version-example}
+### Find published documents without a draft {#published-without-draft-example}
+
+`publicationFilter: published-without-draft` describes published rows, so it requires `status: 'published'`:
+
+<Endpoint
+  kind="js"
+  path="strapi.documents().findMany()"
+  title="findMany() with publicationFilter: 'published-without-draft'"
+  description="Return published entries with no matching draft row for the same locale."
+  codeTabs={[
+    {
+      label: 'JavaScript',
+      code: `await strapi.documents('api::restaurant.restaurant').findMany({
+    status: 'published',
+    publicationFilter: 'published-without-draft',
+});`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: 'OK',
+      body: `[
+  {
+    documentId: "j0klm1n2o3p4q5r6s7t8u9v",
+    name: "Legacy Restaurant",
+    publishedAt: "2024-01-10T09:15:00.000Z",
+    locale: "en", // default locale
+    // …
+  }
+  // …
+]`
+    }
+  ]}
+/>
+
+### Find published documents with a draft {#published-with-draft-example}
+
+`publicationFilter: published-with-draft` also describes published rows and requires `status: 'published'`:
+
+<Endpoint
+  kind="js"
+  path="strapi.documents().findMany()"
+  title="findMany() with publicationFilter: 'published-with-draft'"
+  description="Return published entries that also have a matching draft row for the same locale."
+  codeTabs={[
+    {
+      label: 'JavaScript',
+      code: `await strapi.documents('api::restaurant.restaurant').findMany({
+    status: 'published',
+    publicationFilter: 'published-with-draft',
+});`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: 'OK',
+      body: `[
+  {
+    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+    name: "Biscotte Restaurant",
+    publishedAt: "2024-03-14T15:40:45.330Z",
+    locale: "en", // default locale
+    // …
+  }
+  // …
+]`
+    }
+  ]}
+/>
+
+### Find documents with a published version {#has-published-version-example}
 
 `publicationFilter: has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). It returns rows with either `status`; the example below returns the draft rows.
 
