@@ -59,21 +59,21 @@ The Document Service API returns draft versions of documents when `status` is om
 
 ## Possible use cases {#use-cases}
 
-The following table lists many possible use cases, illustrating how the `status` and `publicationFilter` parameters can be combined to find exactly what you need with the Document Service API:
+The following table lists many possible use cases, illustrating how the `status` and `publicationFilter` parameters can be combined to find exactly what you need with the Document Service API. Click a use case to jump to a complete example:
 
-| I want to… | Use `status` as… | Use `publicationFilter` as… | Full example |
-| ---------- | ------------------ | ----------------------------- | ------------ |
-| Find drafts never published in a given locale | `draft` | `never-published` | [Find never published drafts](#never-published-example) |
-| Find drafts of documents never published in any locale | `draft` | `never-published-document` | [Find documents never published in any locale](#document-scoped) |
-| Find the newer drafts of entries modified since their last publication | `draft` | `modified` | [Find modified documents](#modified) |
-| Find the currently-live version of those same modified entries | `published` | `modified` | [Find modified documents](#modified) |
-| Find published entries that have no draft counterpart | `published` | `published-without-draft` | [Find published entries without a draft](#published-without-draft-example) |
-| Find published entries that also have a draft | `published` | `published-with-draft` | [Find published entries with a draft](#published-with-draft-example) |
-| Find drafts that have not changed since their last publication | `draft` or `published` | `unmodified` | [Find unmodified entries](#unmodified-example) |
-| Find entries that have both a draft and a published version | `draft` or `published` | `has-published-version` | [Find entries with a published version](#has-published-version-example) |
-| Find documents published in at least one locale | `draft` or `published` | `has-published-version-document` | [Find documents published in at least one locale](#has-published-version-document-example) |
-| Check whether one specific document matches a value (with `findOne()` or `findFirst()`) | `draft` or `published` | any value | [Use with findOne() and findFirst()](#find-one-find-first) |
-| Count only the documents that match a value (with `count()`) | `draft` or `published` | any value | [Count only matching documents](#count) |
+| I want to… | Use `status` as… | Use `publicationFilter` as… |
+| ---------- | ------------------ | ----------------------------- |
+| [Find never published drafts](#never-published-example) | `draft` | `never-published` |
+| [Find documents never published in any locale](#document-scoped) | `draft` | `never-published-document` |
+| [Find modified documents](#modified) | `draft` | `modified` |
+| [Find modified documents](#modified) | `published` | `modified` |
+| [Find published entries without a draft](#published-without-draft-example) | `published` | `published-without-draft` |
+| [Find published entries with a draft](#published-with-draft-example) | `published` | `published-with-draft` |
+| [Find unmodified entries](#unmodified-example) | `draft` or `published` | `unmodified` |
+| [Find entries with a published version](#has-published-version-example) | `draft` or `published` | `has-published-version` |
+| [Find documents published in at least one locale](#has-published-version-document-example) | `draft` or `published` | `has-published-version-document` |
+| [Use with `findOne()` and `findFirst()`](#find-one-find-first) | `draft` or `published` | any value |
+| [Count only matching documents](#count) | `draft` or `published` | any value |
 
 :::caution
 Pairing a value with the opposite `status` from the table above is valid but returns no rows rather than an error: for example, `never-published` with `status: 'published'` returns an empty result, because these documents have no published row yet.
