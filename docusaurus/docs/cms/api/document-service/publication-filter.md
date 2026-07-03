@@ -66,16 +66,16 @@ The following table lists many possible use cases, illustrating how the `status`
 | [Find never published drafts](#never-published-example) | `draft` | `never-published` |
 | [Find documents never published in any locale](#document-scoped) | `draft` | `never-published-document` |
 | [Find modified documents](#modified) | `draft` or `published` | `modified` |
-| [Find published entries without a draft](#published-without-draft-example) | `published` | `published-without-draft` |
-| [Find published entries with a draft](#published-with-draft-example) | `published` | `published-with-draft` |
-| [Find unmodified entries](#unmodified-example) | `draft` or `published` | `unmodified` |
-| [Find entries with a published version](#has-published-version-example) | `draft` or `published` | `has-published-version` |
+| [Find unmodified documents](#unmodified-example) | `draft` or `published` | `unmodified` |
+| [Find published documents without a draft](#published-without-draft-example) | `published` | `published-without-draft` |
+| [Find published documents with a draft](#published-with-draft-example) | `published` | `published-with-draft` |
+| [Find documents with a published version](#has-published-version-example) | `draft` or `published` | `has-published-version` |
 | [Find documents published in at least one locale](#has-published-version-document-example) | `draft` or `published` | `has-published-version-document` |
 | [Use with `findOne()` and `findFirst()`](#find-one-find-first) | `draft` or `published` | any value |
 | [Count only matching documents](#count) | `draft` or `published` | any value |
 
 :::caution
-Pairing a value with the opposite `status` from the table above is valid but returns no rows rather than an error: for example, `never-published` with `status: 'published'` returns an empty result, because these documents have no published row yet.
+Pairing a value with the opposite `status` from the table above is valid but returns nothing rather than an error: for example, `never-published` with `status: 'published'` returns an empty result, because these documents have no published counterpart yet.
 :::
 
 ## Examples
