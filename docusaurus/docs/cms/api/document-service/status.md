@@ -153,7 +153,7 @@ const publishedCount = await strapi.documents("api::restaurant.restaurant").coun
 :::note
 Since published documents necessarily also have a draft counterpart, a published document is still counted as having a draft version.
 
-This means that counting with the `status: 'draft'` parameter still returns the total number of documents matching other parameters, even if some documents have already been published and are not displayed as "draft" or "modified" in the Content Manager anymore. To count only never-published drafts, pass a [`publicationFilter`](/cms/api/document-service/publication-filter) value such as `'never-published'` or `'never-published-document'`.
+This means that counting with the `status: 'draft'` parameter still returns the total number of documents matching other parameters, even if some documents have already been published and are not displayed as "draft" or "modified" in the Content Manager anymore. To count only never-published drafts, [pass a `publicationFilter` value](/cms/api/document-service/publication-filter) such as `'never-published'` or `'never-published-document'`.
 :::
 
 ## Create a draft and publish it {#create}
