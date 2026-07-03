@@ -27,79 +27,7 @@ New versions (minor or patch) are generally released weekly, on Wednesdays.
 
 </details>
 
-
-
 _Reminder: Version numbers on this page are for the Strapi Docs package. The latest Strapi CMS version is [5.50.0](https://github.com/strapi/strapi/releases/tag/v5.50.0)._
-
-## 7.0.1
-
-<br />
-### <Icon name='sparkle' /> New content
-
-<br />
-
-#### Repository
-- [Add Inki component authoring guides and a non-Claude-Code usage note](https://github.com/strapi/documentation/pull/3300)
-
-### <Icon name='pen-nib' /> Updated content
-
-<br />
-
-#### CMS
-- [Rework OpenAPI HTTP endpoint config for the new access setting](https://github.com/strapi/documentation/pull/3316)
-- [Add note on Users & Permissions role documentId support](https://github.com/strapi/documentation/pull/3292)
-- [Document AWS credential provider function support for S3 uploads](https://github.com/strapi/documentation/pull/3289)
-- [Add guide on reusing built-in admin panel components in plugins](https://github.com/strapi/documentation/pull/3267)
-- [Document unified addSettingsLink and related deprecations in admin nav docs](https://github.com/strapi/documentation/pull/3204)
-- [Document OpenAPI HTTP endpoint serving](https://github.com/strapi/documentation/pull/3188)
-
-#### Cloud
-- [Update Cloud documentation for Essential, Pro, and Scale pricing](https://github.com/strapi/documentation/pull/3307)
-- [Update Cloud CLI deploy documentation for link-first workflow](https://github.com/strapi/documentation/pull/3306)
-
-#### Repository
-- [Make Inki review verify docs against the strapi PR they document](https://github.com/strapi/documentation/pull/3305)
-
-### <Icon name='broom' /> Chore, fixes, typos, and other improvements
-
-<br />
-
-#### CMS
-- [Document SendGrid EU data residency region option](https://github.com/strapi/documentation/pull/3293)
-- [Document admin logo transfer in data export/import](https://github.com/strapi/documentation/pull/3278)
-
-#### Repository
-- [View mode switcher improvements](https://github.com/strapi/documentation/pull/3317)
-- [Add shared Claude Code settings to auto-offer the Inki plugin](https://github.com/strapi/documentation/pull/3312)
-- [Sidebar UI improvements](https://github.com/strapi/documentation/pull/3311)
-- [Update documentation-related label in self-healing workflows](https://github.com/strapi/documentation/pull/3304)
-- [Fix scrollbar and unequal heights on doc cards](https://github.com/strapi/documentation/pull/3301)
-- [Add Inki authoring guides for redesign MDX components](https://github.com/strapi/documentation/pull/3299)
-- [Add an Install Strapi Docs MCP entry to the toolbar dropdown](https://github.com/strapi/documentation/pull/3298)
-- [Mention the Inki docs plugin on the What's new page](https://github.com/strapi/documentation/pull/3296)
-- [Add note about many-to-many relation ordering with GraphQL pagination](https://github.com/strapi/documentation/pull/3290)
-
-***
-This release was made possible thanks to the following contributors. Thank you! 🫶
-<div>
-<a href="https://github.com/lucasboilly" target="_blank">
-    <img className="no-zoom" src="https://avatars.githubusercontent.com/u/45385696?v=4" width="40" height="40" style={{borderRadius: '50%'}} alt="lucasboilly"/>
-</a>
-<a href="https://github.com/mariekirsch" target="_blank">
-    <img className="no-zoom" src="https://avatars.githubusercontent.com/u/63100752?v=4" width="40" height="40" style={{borderRadius: '50%'}} alt="mariekirsch"/>
-</a>
-<a href="https://github.com/pwizla" target="_blank">
-    <img className="no-zoom" src="https://avatars.githubusercontent.com/u/4233866?v=4" width="40" height="40" style={{borderRadius: '50%'}} alt="pwizla"/>
-</a>
-<a href="https://github.com/unrevised6419" target="_blank">
-    <img className="no-zoom" src="https://avatars.githubusercontent.com/u/1881266?v=4" width="40" height="40" style={{borderRadius: '50%'}} alt="unrevised6419"/>
-</a>
-</div>
-<br/>
-<br/>
-
-
-
 
 ## 7.0.1
 
