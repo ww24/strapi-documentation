@@ -93,10 +93,6 @@ This parameter combination works only on a given locale; to find these documents
   title="Get draft restaurants that have never been published for their locale"
   codeTabs={[
     {
-      label: "REST",
-      code: `GET /api/restaurants?status=draft&publicationFilter=never-published`
-    },
-    {
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
@@ -146,10 +142,6 @@ A document counts as published as soon as one of its locales is published: the d
   path="/api/restaurants?status=draft&publicationFilter=never-published-document"
   title="Get drafts of restaurants never published in any locale"
   codeTabs={[
-    {
-      label: "REST",
-      code: `GET /api/restaurants?status=draft&publicationFilter=never-published-document`
-    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -201,10 +193,6 @@ For instance, with `status=draft`, the query returns the draft versions:
   title="Get the draft versions of modified restaurants"
   codeTabs={[
     {
-      label: "REST",
-      code: `GET /api/restaurants?status=draft&publicationFilter=modified`
-    },
-    {
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
@@ -251,10 +239,6 @@ With `status=published` (the REST default), the same query returns the currently
   path="/api/restaurants?publicationFilter=modified"
   title="Get the currently live version of modified restaurants"
   codeTabs={[
-    {
-      label: "REST",
-      code: `GET /api/restaurants?publicationFilter=modified`
-    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -305,10 +289,6 @@ For instance, with `status=draft`, the query returns the draft versions:
   title="Get the draft versions of unmodified restaurants"
   codeTabs={[
     {
-      label: "REST",
-      code: `GET /api/restaurants?status=draft&publicationFilter=unmodified`
-    },
-    {
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
@@ -355,10 +335,6 @@ With `status=published` (the REST default), the same query returns the currently
   path="/api/restaurants?publicationFilter=unmodified"
   title="Get the currently live version of unmodified restaurants"
   codeTabs={[
-    {
-      label: "REST",
-      code: `GET /api/restaurants?publicationFilter=unmodified`
-    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -407,10 +383,6 @@ await request(\`/api/restaurants?\${query}\`);`
   title="Get published restaurants with no draft for the same locale"
   codeTabs={[
     {
-      label: "REST",
-      code: `GET /api/restaurants?publicationFilter=published-without-draft`
-    },
-    {
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
@@ -457,10 +429,6 @@ await request(\`/api/restaurants?\${query}\`);`
   path="/api/restaurants?publicationFilter=published-with-draft"
   title="Get published restaurants that also have a draft for the same locale"
   codeTabs={[
-    {
-      label: "REST",
-      code: `GET /api/restaurants?publicationFilter=published-with-draft`
-    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -511,10 +479,6 @@ For instance, with `status=draft`, the query returns the draft versions:
   title="Get the draft versions of restaurants that also have a published version"
   codeTabs={[
     {
-      label: "REST",
-      code: `GET /api/restaurants?status=draft&publicationFilter=has-published-version`
-    },
-    {
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
@@ -562,10 +526,6 @@ With `status=published` (the REST default), the same query returns the currently
   title="Get the currently live version of restaurants that also have a draft"
   codeTabs={[
     {
-      label: "REST",
-      code: `GET /api/restaurants?publicationFilter=has-published-version`
-    },
-    {
       label: "JavaScript",
       code: `const qs = require('qs');
 const query = qs.stringify({
@@ -612,10 +572,6 @@ await request(\`/api/restaurants?\${query}\`);`
   path="/api/restaurants?status=draft&publicationFilter=has-published-version-document"
   title="Get the drafts of restaurants published in at least one locale"
   codeTabs={[
-    {
-      label: "REST",
-      code: `GET /api/restaurants?status=draft&publicationFilter=has-published-version-document`
-    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
