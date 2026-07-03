@@ -1,5 +1,5 @@
 ---
-title: Publication filter
+title: "REST API: publicationFilter"
 description: Use the publicationFilter parameter with Strapi's REST API to query documents by the relationship between their draft and published versions, such as never-published or modified documents.
 sidebarDepth: 3
 sidebar_label: Publication filter
@@ -27,6 +27,8 @@ Add the optional `publicationFilter` query parameter to query documents by the r
 The `publicationFilter` is a query parameter that, combined with [the `status` parameter](/cms/api/rest/status), can help you cover complex queries to find exactly what you need with the [REST API](/cms/api/rest).
 
 While `status` answers "do I want the draft or the published version?", the `publicationFilter` parameter answers a different question: "which documents do I want, based on how their draft and published versions relate?". This is useful for example to find documents that were never published, or documents whose draft has unsaved changes compared to what is live.
+
+The [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter) page is the canonical reference for the underlying draft and published model; this page focuses on using the parameter over REST.
 
 :::prerequisites
 The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled on the content-type. If Draft & Publish is disabled, `publicationFilter` has no effect.
@@ -691,5 +693,3 @@ await request(\`/api/restaurants?\${query}\`);`
 ## Combine with other parameters {#combine}
 
 `publicationFilter` can be combined with [`filters`](/cms/api/rest/filters), [`locale`](/cms/api/rest/locale), [`populate`](/cms/api/rest/populate-select), and other [REST parameters](/cms/api/rest/parameters). All conditions are applied together.
-
-For the full list of values, their exact definitions, and every `status` combination, see [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter), which is the reference for the underlying model.
