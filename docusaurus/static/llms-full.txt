@@ -1026,18 +1026,18 @@ Recommended maximum image size, expressed in megapixels (MP), per format and pla
 
 | Format | Essential | Pro & Scale |
 |--------|------------------|-------------|
-| JPEG   | 24 MP            | 135 MP      |
-| PNG    | 8 MP             | 90 MP       |
+| JPEG   | 26 MP            | 135 MP      |
+| PNG    | 10 MP            | 90 MP       |
 | WebP   | 4 MP             | 12 MP       |
-| TIFF   | 16 MP            | 125 MP      |
-| AVIF   | 66 MP            | 80 MP       |
+| TIFF   | 24 MP            | 125 MP      |
+| AVIF   | 92 MP            | 92 MP       |
 | Format | Essential | Pro & Scale |
 |--------|------------------|-------------|
-| JPEG   | 200 MP           | 265 MP      |
-| PNG    | 20 MP            | 115 MP      |
+| JPEG   | 224 MP           | 265 MP      |
+| PNG    | 24 MP            | 115 MP      |
 | WebP   | 15 MP            | 40 MP       |
-| TIFF   | 20 MP            | 125 MP      |
-| AVIF   | 74 MP            | 90 MP       |
+| TIFF   | 24 MP            | 125 MP      |
+| AVIF   | 96 MP            | 96 MP       |
 
 :::note Converting pixels to megapixels
 The number of megapixels of an image is its width multiplied by its height in pixels, divided by 1,000,000. The pixel dimensions that match a given megapixel count depend on the aspect ratio. For a square image, 1 MP is roughly 1000×1000 px, 4 MP is roughly 2000×2000 px, and 100 MP is roughly 10000×10000 px.
