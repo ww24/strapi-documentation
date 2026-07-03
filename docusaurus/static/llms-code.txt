@@ -7165,44 +7165,24 @@ File path: N/A
 ```
 
 
-## Configuration
-Description: Add an openapi key to the server configuration:
-(Source: https://docs.strapi.io/cms/api/openapi#configuration)
+## HTTP endpoint access
+Description: The following example exposes both endpoints:
+(Source: https://docs.strapi.io/cms/api/openapi#http-endpoint-access)
 
 Language: JavaScript
 File path: /config/server.js
 
 ```js
-module.exports = ({ env }) => ({
-  host: env('HOST', '0.0.0.0'),
-  port: env.int('PORT', 1337),
-  // highlight-start
+module.exports = {
   openapi: {
     'content-api': {
       access: 'public',
-      route: {
-        path: '/openapi.json',
-      },
-      cache: {
-        enabled: true,
-        maxAgeMs: 60000,
-        filePath: '.strapi/openapi/content-api.json',
-      },
     },
     admin: {
       access: 'authenticated',
-      route: {
-        path: '/openapi.json',
-      },
-      cache: {
-        enabled: true,
-        maxAgeMs: 60000,
-        filePath: '.strapi/openapi/admin.json',
-      },
     },
   },
-  // highlight-end
-});
+};
 ```
 
 ---
@@ -7210,36 +7190,16 @@ Language: TypeScript
 File path: /config/server.ts
 
 ```ts
-export default ({ env }) => ({
-  host: env('HOST', '0.0.0.0'),
-  port: env.int('PORT', 1337),
-  // highlight-start
+export default {
   openapi: {
     'content-api': {
       access: 'public',
-      route: {
-        path: '/openapi.json',
-      },
-      cache: {
-        enabled: true,
-        maxAgeMs: 60000,
-        filePath: '.strapi/openapi/content-api.json',
-      },
     },
     admin: {
       access: 'authenticated',
-      route: {
-        path: '/openapi.json',
-      },
-      cache: {
-        enabled: true,
-        maxAgeMs: 60000,
-        filePath: '.strapi/openapi/admin.json',
-      },
     },
   },
-  // highlight-end
-});
+};
 ```
 
 
@@ -20025,6 +19985,9 @@ module.exports = ({ env }) => ({
       enabled: false,
     },
   },
+  webhooks: {
+    populateRelations: false,
+  },
   logger: {
     updates: {
       enabled: false,
@@ -20065,6 +20028,9 @@ export default ({ env }) => ({
     remote: {
       enabled: false,
     },
+  },
+  webhooks: {
+    populateRelations: false,
   },
   logger: {
     updates: {
@@ -32374,6 +32340,72 @@ useEffect(() => {
   });
 }, [setFoobar]);
 // …
+```
+
+
+
+# How to reuse built-in admin panel components in plugins
+Source: https://docs.strapi.io/cms/plugins-development/guides/reuse-admin-panel-components
+
+## Access a component from the registry
+Description: Built-in admin panel components are stored in the components object of the Strapi app context.
+(Source: https://docs.strapi.io/cms/plugins-development/guides/reuse-admin-panel-components#access-a-component-from-the-registry)
+
+Language: JavaScript
+File path: N/A
+
+```js
+import { useStrapiApp } from '@strapi/admin/strapi-admin';
+
+const components = useStrapiApp('MyCustomComponent', (state) => state.components);
+const MediaLibraryDialog = components['media-library'];
+```
+
+
+## Reuse the Media Library dialog
+Description: The following example renders the dialog from a custom component and pre-selects assets when it opens:
+(Source: https://docs.strapi.io/cms/plugins-development/guides/reuse-admin-panel-components#reuse-the-media-library-dialog)
+
+Language: JavaScript
+File path: N/A
+
+```js
+import { useState } from 'react';
+import { useStrapiApp } from '@strapi/admin/strapi-admin';
+
+export function MyCustomComponent() {
+  const [isMediaLibraryOpen, setIsMediaLibraryOpen] = useState(false);
+  const components = useStrapiApp('MyCustomComponent', (state) => state.components);
+  const MediaLibraryDialog = components['media-library'];
+
+  // Assets to pre-select when the dialog opens.
+  // Each entry is a full Media Library asset object, not just an id and name.
+  const initialAssets = [
+    { id: 1, name: 'image1.jpg' /* ...other asset fields */ },
+    { id: 2, name: 'image2.png' /* ...other asset fields */ },
+  ];
+
+  const handleSelectAssets = (assets) => {
+    // Handle the assets the user selected
+    console.log('Selected assets:', assets);
+    setIsMediaLibraryOpen(false);
+  };
+
+  return (
+    <>
+      <button type="button" onClick={() => setIsMediaLibraryOpen(true)}>
+        Open the Media Library
+      </button>
+      {isMediaLibraryOpen && (
+        <MediaLibraryDialog
+          initiallySelectedAssets={initialAssets}
+          onSelectAssets={handleSelectAssets}
+          onClose={() => setIsMediaLibraryOpen(false)}
+        />
+      )}
+    </>
+  );
+}
 ```
 
 

@@ -1,5 +1,6 @@
 ---
 title: Media Library
+displayed_sidebar: cmsSidebar
 sidebar_position: 1
 description: Learn to use the Media Library which allows to display and manage all assets uploaded in the application.
 toc_max_heading_level: 5
@@ -350,6 +351,10 @@ The Upload plugin validates files based on their actual MIME type rather than th
 Only files matching the defined security rules are uploaded.
 
 The `security` configuration provides 2 options: `allowedTypes` or `deniedTypes`, which let you control which file types can or cannot be uploaded.
+
+:::tip New projects
+Apps scaffolded with `create-strapi-app` include a pre-configured `security` block in the generated `config/plugins.*` file, with `allowedTypes` covering common image, video, audio, and document formats, and `deniedTypes` blocking executable and shell script types.
+:::
 
 :::note
 You can use `allowedTypes` and `deniedTypes` separately or together to fine-tune which files are accepted. Files must match an allowed type and must not match any denied type. If you use a wildcard like `*` in `allowedTypes`, you can narrow down the validation by specifying exceptions in `deniedTypes`.
@@ -840,7 +845,7 @@ The Media Library feature has some endpoints that can accessed through Strapi's 
 
 Public assets are static files (e.g., images, video, CSS files, etc.) that you want to make accessible to the outside world.
 
-Because an API may need to serve static assets, every new Strapi project includes by default a folder named `/public`. Any file located in this directory is accessible if the request's path doesn't match any other defined route and if it matches a public file name (e.g. an image named `company-logo.png` in `./public/` is accessible through `/company-logo.png` URL).
+Because an API may need to serve static assets, every new Strapi project includes by default a folder named `/public`. Any file located in this directory is accessible if the request's path doesn't match any other defined route and if it matches a public file name (e.g. an image named `company-logo.png` in `/public/` is accessible through `/company-logo.png` URL).
 
 :::tip
 `index.html` files are served if the request corresponds to a folder name (`/pictures` url will try to serve `public/pictures/index.html` file).
