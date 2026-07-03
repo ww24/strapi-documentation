@@ -20,7 +20,7 @@ tags:
 
 <Tldr>
 
-Use the optional `publicationFilter` parameter to query documents by the relationship between their draft and published versions, for example drafts that were never published, or entries modified since they were last published. It works with `findOne()`, `findFirst()`, `findMany()`, and `count()`, and combines with other query parameters. `status` still decides whether you get the draft or the published row.
+Use the optional `publicationFilter` parameter to query documents by the relationship between their draft and published versions, for example drafts that were never published, or entries modified since they were last published. It works with `findOne()`, `findFirst()`, `findMany()`, and `count()`, and combines with other query parameters. `status` still decides whether you get the draft or the published version.
 
 </Tldr>
 
@@ -56,7 +56,6 @@ The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled o
 The Document Service API returns draft versions of documents when `status` is omitted, while REST and GraphQL return the published ones instead, so REST API queries need an explicit `status` (see [REST API: `publicationFilter`](/cms/api/rest/publication-filter)).
 :::
 
-
 ## Possible use cases {#use-cases}
 
 The following table lists many possible use cases, illustrating how the `status` and `publicationFilter` parameters can be combined to find exactly what you need with the Document Service API. Click a use case to jump to a complete example:
@@ -88,9 +87,6 @@ One of the most common use cases is to find the drafts that have never been publ
 
 This parameter combination works only on a given locale; to find these documents across all locales, [use `never-published-document`](#never-published-document) instead.
 
-- `status: 'draft'` (so you read the draft row)
-- and `publicationFilter: 'never-published'` (so you only keep documents with no published version):
-
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
@@ -110,20 +106,18 @@ This parameter combination works only on a given locale; to find these documents
       status: 200,
       statusText: 'OK',
       body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "New Restaurant",
-    publishedAt: null,
-    locale: "en", // default locale
-    // …
-  }
+    {
+      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+      name: "New Restaurant",
+      publishedAt: null,
+      locale: "en", // default locale
+      // …
+    }
   // …
 ]`
     }
   ]}
 />
-
-<br/>
 
 ### Find drafts never published in any locale {#never-published-document}
 
@@ -165,13 +159,13 @@ This parameter combination works only on a given locale; to find these documents
 
 `publicationFilter: modified` selects documents whose draft has unpublished changes. `status` then decides which version of those documents you get back.
 
-With `status: 'draft'`, the query returns the pending draft rows:
+With `status: 'draft'`, the query returns the pending draft versions:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'modified' and status: 'draft'"
-  description="Return the pending draft rows of documents with unpublished changes."
+  description="Return the pending draft version of documents with unpublished changes."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -199,13 +193,14 @@ With `status: 'draft'`, the query returns the pending draft rows:
   ]}
 />
 
+<br/>
 With `status: 'published'`, the same query returns the currently live version of those documents instead:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'modified' and status: 'published'"
-  description="Return the currently live rows of documents with unpublished changes."
+  description="Return the currently live versions of documents with unpublished changes."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -235,13 +230,13 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find unmodified documents {#unmodified}
 
-`publicationFilter: unmodified` selects documents whose draft has not changed since it was last published (the draft row's `updatedAt` is not more recent than the published row's). It returns rows with either `status`; the example below returns the draft rows.
+`publicationFilter: unmodified` selects documents whose draft has not changed since it was last published. It returns entries with either `status`; the following example returns the draft versions:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'unmodified'"
-  description="Return the draft rows of documents unchanged since their last publication."
+  description="Return the draft versions of documents unchanged since their last publication."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -256,13 +251,13 @@ With `status: 'published'`, the same query returns the currently live version of
       status: 200,
       statusText: 'OK',
       body: `[
-  {
-    documentId: "a1b2c3d4e5f6g7h8i9j0klm",
-    name: "Biscotte Restaurant",
-    publishedAt: null,
-    locale: "en", // default locale
-    // …
-  }
+    {
+      documentId: "a1b2c3d4e5f6g7h8i9j0klm",
+      name: "Biscotte Restaurant",
+      publishedAt: null,
+      locale: "en", // default locale
+      // …
+    }
   // …
 ]`
     }
@@ -271,13 +266,13 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find published documents without a draft {#published-without-draft}
 
-`publicationFilter: published-without-draft` describes published rows, so it requires `status: 'published'`:
+`publicationFilter: published-without-draft` must be paired with `status: 'published'`:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'published-without-draft'"
-  description="Return published entries with no matching draft row for the same locale."
+  description="Return published entries with no matching draft version for the same locale."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -307,13 +302,13 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find published documents with a draft {#published-with-draft}
 
-`publicationFilter: published-with-draft` also describes published rows and requires `status: 'published'`:
+`publicationFilter: published-with-draft` must be paired with `status: 'published'`:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'published-with-draft'"
-  description="Return published entries that also have a matching draft row for the same locale."
+  description="Return published entries that also have a matching draft version for the same locale."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -343,13 +338,13 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find documents with a published version {#has-published-version}
 
-`publicationFilter: has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). It returns rows with either `status`; the example below returns the draft rows.
+`publicationFilter: has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). It returns versions with either `status`; the example below returns the draft versions.
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'has-published-version'"
-  description="Return the draft rows of documents that also have a published version for the same locale."
+  description="Return the draft versions of documents that also have a published version for the same locale."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -379,13 +374,13 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find documents published in at least one locale {#has-published-version-document}
 
-`publicationFilter: has-published-version-document` considers all locales, so it matches a document as soon as one of its locales is published. With `status: 'draft'`, it returns the draft rows of every locale of those documents, including locales that were never published themselves:
+`publicationFilter: has-published-version-document` considers all locales, so it matches a document as soon as one of its locales is published. With `status: 'draft'`, it returns the draft versions of every locale of those documents, including locales that were never published themselves:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'has-published-version-document'"
-  description="Return the draft rows of documents published in at least one locale."
+  description="Return the draft versions of documents published in at least one locale."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -443,7 +438,7 @@ If the requested document (and locale, when applicable) does not match the filte
 
 ### Count only matching documents {#count}
 
-Without `publicationFilter`, `count({ status: 'draft' })` counts every draft row, including drafts whose document already has a published version. Add `publicationFilter` to count only the documents that match a given value (see the [`status` documentation](/cms/api/document-service/status#count)):
+Without `publicationFilter`, `count({ status: 'draft' })` counts every draft version, including drafts whose document already has a published version. Add `publicationFilter` to count only the documents that match a given value (see the [`status` documentation](/cms/api/document-service/status#count)):
 
 ```js
 const neverPublishedCount = await strapi
