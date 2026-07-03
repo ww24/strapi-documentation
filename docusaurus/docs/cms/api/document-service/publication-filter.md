@@ -65,8 +65,7 @@ The following table lists many possible use cases, illustrating how the `status`
 | ---------- | ------------------ | ----------------------------- |
 | [Find never published drafts](#never-published-example) | `draft` | `never-published` |
 | [Find documents never published in any locale](#document-scoped) | `draft` | `never-published-document` |
-| [Find modified documents](#modified) | `draft` | `modified` |
-| [Find modified documents](#modified) | `published` | `modified` |
+| [Find modified documents](#modified) | `draft` or `published` | `modified` |
 | [Find published entries without a draft](#published-without-draft-example) | `published` | `published-without-draft` |
 | [Find published entries with a draft](#published-with-draft-example) | `published` | `published-with-draft` |
 | [Find unmodified entries](#unmodified-example) | `draft` or `published` | `unmodified` |
