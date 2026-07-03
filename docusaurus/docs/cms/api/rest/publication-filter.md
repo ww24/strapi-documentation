@@ -20,34 +20,72 @@ tags:
 
 <Tldr>
 
-Add the optional `publicationFilter` query parameter to filter results by the relationship between a document's draft and published versions, for example never-published or modified entries. The [`status`](/cms/api/rest/status) parameter still selects whether each result returns its draft or published row. REST defaults to `status=published`, so pass `status=draft` for values that only match drafts.
+Add the optional `publicationFilter` query parameter to query documents by the relationship between their draft and published versions, for example documents that were never published, or documents modified since they were last published. It combines with other query parameters, and `status` still decides whether you get the draft or the published version.
 
 </Tldr>
 
-The [REST API](/cms/api/rest) accepts an optional `publicationFilter` query parameter when [Draft & Publish](/cms/features/draft-and-publish) is enabled. `publicationFilter` filters results by the relationship between a document's draft and published versions, for example entries never published, or entries modified since they were last published.
+The `publicationFilter` is a query parameter that, combined with [the `status` parameter](/cms/api/rest/status), can help you cover complex queries to find exactly what you need with the [REST API](/cms/api/rest).
 
-:::note Key terms
-Strapi Draft & Publish stores each entry as up to 2 database rows for the same document and locale:
-
-- a *draft row* (`publishedAt` is empty)
-- a *published row* (`publishedAt` is set)
-
-The [`status`](/cms/api/rest/status) parameter picks which of the 2 rows to read.
-
-`publicationFilter` instead selects a group of documents based on how their draft and published rows relate (for example, never published, or draft newer than published). Some of these questions compare the 2 rows, so they cannot be expressed by filtering on `publishedAt` alone.
-:::
-
-`publicationFilter` selects the group of documents first; `status` then decides which row (draft or published) is returned for each result. One rule explains most surprises on this page: when `status` is omitted, REST defaults to `status=published` **before** applying `publicationFilter`, so values that only match drafts, such as `never-published`, return empty results unless you pass `status=draft`. [Understand the default `status`](#default-status) details each combination.
-
-This page shows how to use the most common `publicationFilter` values over REST. For the full list of values, their exact definitions, and every `status` combination, see [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter), which is the reference for the underlying model.
+While `status` answers "do I want the draft or the published version?", the `publicationFilter` parameter answers a different question: "which documents do I want, based on how their draft and published versions relate?". This is useful for example to find documents that were never published, or documents whose draft has unsaved changes compared to what is live.
 
 :::prerequisites
-The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled on the content-type.
+The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled on the content-type. If Draft & Publish is disabled, `publicationFilter` has no effect.
 :::
 
-## Get never-published draft documents {#never-published}
+## Available values {#values}
 
-`never-published` matches documents with no published version for that locale, so only draft rows exist. Pass `status=draft`, because REST defaults to `status=published`:
+`publicationFilter` accepts one of the following values:
+
+| Value | Selects |
+| ----- | ------- |
+| `never-published` | Documents never published in a given locale |
+| `never-published-document` | Documents never published in any locale |
+| `modified` | Documents whose draft was edited since it was last published |
+| `unmodified` | Documents whose draft has not changed since it was last published |
+| `published-without-draft` | Published documents with no draft counterpart |
+| `published-with-draft` | Published documents that also have a draft |
+| `has-published-version` | Documents that have both a draft and a published version |
+| `has-published-version-document` | Documents published in at least one locale<br/>(useful when [i18n](/cms/features/internationalization) is enabled) |
+
+For detailed examples of how to use the `publicationFilter` values, including with the `status` parameter, see the [possible use cases](#use-cases) table.
+
+:::note
+* Unknown values return an HTTP `400` error.
+* Values ending in `-document` consider all locales of a document, which matters when [Internationalization (i18n)](/cms/features/internationalization) is enabled: for example, `never-published-document` excludes a document as soon as one of its locales is published. All other values consider one locale at a time. Without i18n, both variants behave the same.
+:::
+
+:::caution Caution: Different default behaviors for different APIs
+The REST API returns published versions of documents when `status` is omitted, so queries for draft-only values such as `never-published` need an explicit `status=draft`. The Document Service API returns draft versions instead (see [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter)).
+:::
+
+## Possible use cases {#use-cases}
+
+The following table lists many possible use cases, illustrating how the `status` and `publicationFilter` parameters can be combined to find exactly what you need with the REST API. Click a use case to jump to a complete example:
+
+| I want to… | Use `status` as… | Use `publicationFilter` as… |
+| ---------- | ------------------ | ----------------------------- |
+| [Find never published drafts](#never-published) | `draft` | `never-published` |
+| [Find drafts never published in any locale](#never-published-document) | `draft` | `never-published-document` |
+| [Find modified documents](#modified) | `draft` or `published` | `modified` |
+| [Find unmodified documents](#unmodified) | `draft` or `published` | `unmodified` |
+| [Find published documents without a draft](#published-without-draft) | `published` | `published-without-draft` |
+| [Find published documents with a draft](#published-with-draft) | `published` | `published-with-draft` |
+| [Find documents with a published version](#has-published-version) | `draft` or `published` | `has-published-version` |
+| [Find documents published in at least one locale](#has-published-version-document) | `draft` or `published` | `has-published-version-document` |
+
+:::note
+Pairing a value with the opposite `status` from the table above is valid but returns nothing rather than an error: for example, `never-published` with `status=published` returns an empty result, because these documents have no published version yet.
+:::
+
+## Examples
+
+The following section lists the most common use cases summed up in the [table](#use-cases) above.
+
+### Find never published drafts {#never-published}
+
+One of the most common use cases is to find the drafts that have never been published. To do so, pass `status=draft` and `publicationFilter=never-published`.
+
+This parameter combination works only on a given locale; to find these documents across all locales, [use `never-published-document`](#never-published-document) instead.
 
 <Endpoint
   method="GET"
@@ -97,14 +135,121 @@ await request(\`/api/restaurants?\${query}\`);`
   ]}
 />
 
-## Get modified documents {#modified}
+### Find drafts never published in any locale {#never-published-document}
 
-`modified` matches documents whose draft is newer than their published version. With no `status` parameter, REST returns the **published** rows of those documents. Pass `status=draft` to return the newer draft rows instead:
+`publicationFilter=never-published-document` returns documents that have never been published in any locale. It looks at the whole document across all its locales, not one locale at a time. To find these documents for a given locale only, [use `never-published`](#never-published) instead.
+
+A document counts as published as soon as one of its locales is published: the document is then left out, even the locales that only exist as a draft. The example below returns the draft versions of documents that were never published anywhere:
+
+<Endpoint
+  method="GET"
+  path="/api/restaurants?status=draft&publicationFilter=never-published-document"
+  title="Get drafts of restaurants never published in any locale"
+  codeTabs={[
+    {
+      label: "REST",
+      code: `GET /api/restaurants?status=draft&publicationFilter=never-published-document`
+    },
+    {
+      label: "JavaScript",
+      code: `const qs = require('qs');
+const query = qs.stringify({
+  status: 'draft',
+  publicationFilter: 'never-published-document',
+}, {
+  encodeValuesOnly: true, // prettify URL
+});
+
+await request(\`/api/restaurants?\${query}\`);`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: "OK",
+      body: `{
+  "data": [
+    {
+      "documentId": "d41r46wac4xix5vpba7561at",
+      "name": "New Restaurant",
+      "publishedAt": null,
+      "locale": "en"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}`
+    }
+  ]}
+/>
+
+### Find modified documents {#modified}
+
+`publicationFilter=modified` selects documents whose draft has modified but unpublished changes. `status` then decides which version of those documents you get back.
+
+For instance, with `status=draft`, the query returns the draft versions:
+
+<Endpoint
+  method="GET"
+  path="/api/restaurants?status=draft&publicationFilter=modified"
+  title="Get the draft versions of modified restaurants"
+  codeTabs={[
+    {
+      label: "REST",
+      code: `GET /api/restaurants?status=draft&publicationFilter=modified`
+    },
+    {
+      label: "JavaScript",
+      code: `const qs = require('qs');
+const query = qs.stringify({
+  status: 'draft',
+  publicationFilter: 'modified',
+}, {
+  encodeValuesOnly: true, // prettify URL
+});
+
+await request(\`/api/restaurants?\${query}\`);`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: "OK",
+      body: `{
+  "data": [
+    {
+      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+      "name": "Biscotte Restaurant (updated)",
+      "publishedAt": null,
+      "locale": "en"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}`
+    }
+  ]}
+/>
+
+<br/>
+With `status=published` (the REST default), the same query returns the currently live version of those documents instead:
 
 <Endpoint
   method="GET"
   path="/api/restaurants?publicationFilter=modified"
-  title="Get published restaurants whose draft is newer (default status)"
+  title="Get the currently live version of modified restaurants"
   codeTabs={[
     {
       label: "REST",
@@ -129,7 +274,7 @@ await request(\`/api/restaurants?\${query}\`);`
       body: `{
   "data": [
     {
-      "documentId": "znrlzntu9ei5onjvwfaalu2v",
+      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
       "name": "Biscotte Restaurant",
       "publishedAt": "2024-03-14T15:40:45.330Z",
       "locale": "en"
@@ -148,14 +293,118 @@ await request(\`/api/restaurants?\${query}\`);`
   ]}
 />
 
-## Get published documents without a draft {#published-without-draft}
+### Find unmodified documents {#unmodified}
 
-`published-without-draft` matches published rows that have no draft for the same `(documentId, locale)`. REST defaults to `status=published`, so you can omit `status`:
+`publicationFilter=unmodified` selects documents whose draft has not changed since it was last published. `status` then decides which version of those documents you get back.
+
+For instance, with `status=draft`, the query returns the draft versions:
+
+<Endpoint
+  method="GET"
+  path="/api/restaurants?status=draft&publicationFilter=unmodified"
+  title="Get the draft versions of unmodified restaurants"
+  codeTabs={[
+    {
+      label: "REST",
+      code: `GET /api/restaurants?status=draft&publicationFilter=unmodified`
+    },
+    {
+      label: "JavaScript",
+      code: `const qs = require('qs');
+const query = qs.stringify({
+  status: 'draft',
+  publicationFilter: 'unmodified',
+}, {
+  encodeValuesOnly: true, // prettify URL
+});
+
+await request(\`/api/restaurants?\${query}\`);`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: "OK",
+      body: `{
+  "data": [
+    {
+      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+      "name": "Biscotte Restaurant",
+      "publishedAt": null,
+      "locale": "en"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}`
+    }
+  ]}
+/>
+
+<br/>
+With `status=published` (the REST default), the same query returns the currently live version of those documents instead:
+
+<Endpoint
+  method="GET"
+  path="/api/restaurants?publicationFilter=unmodified"
+  title="Get the currently live version of unmodified restaurants"
+  codeTabs={[
+    {
+      label: "REST",
+      code: `GET /api/restaurants?publicationFilter=unmodified`
+    },
+    {
+      label: "JavaScript",
+      code: `const qs = require('qs');
+const query = qs.stringify({
+  publicationFilter: 'unmodified',
+}, {
+  encodeValuesOnly: true, // prettify URL
+});
+
+await request(\`/api/restaurants?\${query}\`);`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: "OK",
+      body: `{
+  "data": [
+    {
+      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+      "name": "Biscotte Restaurant",
+      "publishedAt": "2024-03-14T15:40:45.330Z",
+      "locale": "en"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}`
+    }
+  ]}
+/>
+
+### Find published documents without a draft {#published-without-draft}
+
+`publicationFilter=published-without-draft` selects published documents that have no draft counterpart. It describes published rows, so REST returns them with the default `status=published`:
 
 <Endpoint
   method="GET"
   path="/api/restaurants?publicationFilter=published-without-draft"
-  title="Get published restaurants with no draft row for the same locale"
+  title="Get published restaurants with no draft for the same locale"
   codeTabs={[
     {
       label: "REST",
@@ -180,7 +429,7 @@ await request(\`/api/restaurants?\${query}\`);`
       body: `{
   "data": [
     {
-      "documentId": "abcdefghijklmno456",
+      "documentId": "j0klm1n2o3p4q5r6s7t8u9v",
       "name": "Legacy Restaurant",
       "publishedAt": "2024-01-10T09:15:00.000Z",
       "locale": "en"
@@ -199,26 +448,215 @@ await request(\`/api/restaurants?\${query}\`);`
   ]}
 />
 
-## Understand the default `status` {#default-status}
+### Find published documents with a draft {#published-with-draft}
 
-When `status` is omitted, REST defaults to `status=published` **before** applying `publicationFilter`. This is the most common source of unexpected empty results: a value that only matches drafts, such as `never-published`, returns nothing under the default status. The table below shows the effect for the values used above:
+`publicationFilter=published-with-draft` selects published documents that also have a draft. It describes published rows, so REST returns them with the default `status=published`:
 
-| Query | Returns | Why |
-| ----- | ------- | --- |
-| `?publicationFilter=never-published` | Empty | `never-published` matches draft rows only; the default status is `published` |
-| `?status=draft&publicationFilter=never-published` | Never-published draft rows | `status=draft` reads the draft row |
-| `?publicationFilter=modified` | Published rows of modified documents | The default `status=published` reads the live row |
-| `?status=draft&publicationFilter=modified` | Draft rows of modified documents | `status=draft` reads the newer draft |
-| `?publicationFilter=published-without-draft` | Published rows with no draft | The default `status=published` is correct here |
+<Endpoint
+  method="GET"
+  path="/api/restaurants?publicationFilter=published-with-draft"
+  title="Get published restaurants that also have a draft for the same locale"
+  codeTabs={[
+    {
+      label: "REST",
+      code: `GET /api/restaurants?publicationFilter=published-with-draft`
+    },
+    {
+      label: "JavaScript",
+      code: `const qs = require('qs');
+const query = qs.stringify({
+  publicationFilter: 'published-with-draft',
+}, {
+  encodeValuesOnly: true, // prettify URL
+});
 
-The Document Service API defaults to `status=draft` instead (see [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter)).
+await request(\`/api/restaurants?\${query}\`);`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: "OK",
+      body: `{
+  "data": [
+    {
+      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+      "name": "Biscotte Restaurant",
+      "publishedAt": "2024-03-14T15:40:45.330Z",
+      "locale": "en"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}`
+    }
+  ]}
+/>
 
-## Reference: accepted values {#values}
+### Find documents with a published version {#has-published-version}
 
-REST accepts these kebab-case values: `never-published`, `has-published-version`, `modified`, `unmodified`, `never-published-document`, `has-published-version-document`, `published-without-draft`, `published-with-draft`. Invalid values return HTTP `400`.
+`publicationFilter=has-published-version` selects documents that have both a draft and a published version for the same locale. `status` then decides which version of those documents you get back. Unlike `published-without-draft`, it excludes published documents that have no draft counterpart.
 
-Each value, its scope (pair, meaning one `documentId` and locale at a time, or document, meaning across all locales), and its exact definition are documented on [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter#values).
+For instance, with `status=draft`, the query returns the draft versions:
+
+<Endpoint
+  method="GET"
+  path="/api/restaurants?status=draft&publicationFilter=has-published-version"
+  title="Get the draft versions of restaurants that also have a published version"
+  codeTabs={[
+    {
+      label: "REST",
+      code: `GET /api/restaurants?status=draft&publicationFilter=has-published-version`
+    },
+    {
+      label: "JavaScript",
+      code: `const qs = require('qs');
+const query = qs.stringify({
+  status: 'draft',
+  publicationFilter: 'has-published-version',
+}, {
+  encodeValuesOnly: true, // prettify URL
+});
+
+await request(\`/api/restaurants?\${query}\`);`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: "OK",
+      body: `{
+  "data": [
+    {
+      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+      "name": "Biscotte Restaurant",
+      "publishedAt": null,
+      "locale": "en"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}`
+    }
+  ]}
+/>
+
+<br/>
+With `status=published` (the REST default), the same query returns the currently live version of those documents instead:
+
+<Endpoint
+  method="GET"
+  path="/api/restaurants?publicationFilter=has-published-version"
+  title="Get the currently live version of restaurants that also have a draft"
+  codeTabs={[
+    {
+      label: "REST",
+      code: `GET /api/restaurants?publicationFilter=has-published-version`
+    },
+    {
+      label: "JavaScript",
+      code: `const qs = require('qs');
+const query = qs.stringify({
+  publicationFilter: 'has-published-version',
+}, {
+  encodeValuesOnly: true, // prettify URL
+});
+
+await request(\`/api/restaurants?\${query}\`);`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: "OK",
+      body: `{
+  "data": [
+    {
+      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+      "name": "Biscotte Restaurant",
+      "publishedAt": "2024-03-14T15:40:45.330Z",
+      "locale": "en"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}`
+    }
+  ]}
+/>
+
+### Find documents published in at least one locale {#has-published-version-document}
+
+`publicationFilter=has-published-version-document` considers all locales, so it matches a document as soon as one of its locales is published. With `status=draft`, it returns the draft versions of every locale of those documents, including locales that were never published themselves:
+
+<Endpoint
+  method="GET"
+  path="/api/restaurants?status=draft&publicationFilter=has-published-version-document"
+  title="Get the drafts of restaurants published in at least one locale"
+  codeTabs={[
+    {
+      label: "REST",
+      code: `GET /api/restaurants?status=draft&publicationFilter=has-published-version-document`
+    },
+    {
+      label: "JavaScript",
+      code: `const qs = require('qs');
+const query = qs.stringify({
+  status: 'draft',
+  publicationFilter: 'has-published-version-document',
+}, {
+  encodeValuesOnly: true, // prettify URL
+});
+
+await request(\`/api/restaurants?\${query}\`);`
+    }
+  ]}
+  responses={[
+    {
+      status: 200,
+      statusText: "OK",
+      body: `{
+  "data": [
+    {
+      "documentId": "a1b2c3d4e5f6g7h8i9j0klm",
+      "name": "Biscotte Restaurant",
+      "publishedAt": null,
+      "locale": "en"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}`
+    }
+  ]}
+/>
 
 ## Combine with other parameters {#combine}
 
 `publicationFilter` can be combined with [`filters`](/cms/api/rest/filters), [`locale`](/cms/api/rest/locale), [`populate`](/cms/api/rest/populate-select), and other [REST parameters](/cms/api/rest/parameters). All conditions are applied together.
+
+For the full list of values, their exact definitions, and every `status` combination, see [Document Service API: `publicationFilter`](/cms/api/document-service/publication-filter), which is the reference for the underlying model.
