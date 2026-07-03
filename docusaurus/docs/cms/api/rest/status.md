@@ -67,9 +67,9 @@ To select documents by how their draft and published versions relate (never-publ
       label: 'JavaScript',
       code: `const qs = require('qs');
 const query = qs.stringify({
-  status: 'draft',
+    status: 'draft',
 }, {
-  encodeValuesOnly: true, // prettify URL
+    encodeValuesOnly: true, // prettify URL
 });
 
 await request(\`/api/articles?\${query}\`);`,
