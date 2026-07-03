@@ -95,7 +95,8 @@ This parameter combination works only on a given locale; to find these documents
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?status=draft&publicationFilter=never-published`
+      code: `curl 'http://localhost:1337/api/restaurants?status=draft&publicationFilter=never-published' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -150,7 +151,8 @@ A document counts as published as soon as one of its locales is published: the d
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?status=draft&publicationFilter=never-published-document`
+      code: `curl 'http://localhost:1337/api/restaurants?status=draft&publicationFilter=never-published-document' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -205,7 +207,8 @@ For instance, with `status=draft`, the query returns the draft versions:
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?status=draft&publicationFilter=modified`
+      code: `curl 'http://localhost:1337/api/restaurants?status=draft&publicationFilter=modified' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -257,7 +260,8 @@ With `status=published` (the REST default), the same query returns the currently
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?publicationFilter=modified`
+      code: `curl 'http://localhost:1337/api/restaurants?publicationFilter=modified' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -311,7 +315,8 @@ For instance, with `status=draft`, the query returns the draft versions:
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?status=draft&publicationFilter=unmodified`
+      code: `curl 'http://localhost:1337/api/restaurants?status=draft&publicationFilter=unmodified' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -363,7 +368,8 @@ With `status=published` (the REST default), the same query returns the currently
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?publicationFilter=unmodified`
+      code: `curl 'http://localhost:1337/api/restaurants?publicationFilter=unmodified' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -415,7 +421,8 @@ await request(\`/api/restaurants?\${query}\`);`
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?publicationFilter=published-without-draft`
+      code: `curl 'http://localhost:1337/api/restaurants?publicationFilter=published-without-draft' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -467,7 +474,8 @@ await request(\`/api/restaurants?\${query}\`);`
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?publicationFilter=published-with-draft`
+      code: `curl 'http://localhost:1337/api/restaurants?publicationFilter=published-with-draft' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -521,7 +529,8 @@ For instance, with `status=draft`, the query returns the draft versions:
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?status=draft&publicationFilter=has-published-version`
+      code: `curl 'http://localhost:1337/api/restaurants?status=draft&publicationFilter=has-published-version' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -573,7 +582,8 @@ With `status=published` (the REST default), the same query returns the currently
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?publicationFilter=has-published-version`
+      code: `curl 'http://localhost:1337/api/restaurants?publicationFilter=has-published-version' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
@@ -625,7 +635,8 @@ await request(\`/api/restaurants?\${query}\`);`
   codeTabs={[
     {
       label: "cURL",
-      code: `GET /api/restaurants?status=draft&publicationFilter=has-published-version-document`
+      code: `curl 'http://localhost:1337/api/restaurants?status=draft&publicationFilter=has-published-version-document' \\
+  -H 'Authorization: Bearer <token>'`
     },
     {
       label: "JavaScript",
