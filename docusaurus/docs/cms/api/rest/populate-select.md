@@ -53,8 +53,7 @@ Field selection does not work on relational, media, component, or dynamic zone f
 <Endpoint
   id="field-selection-example"
   method="GET"
-  path="/api/restaurants?fields[0]=name&fields[1]=description"
-  codePath="/api/restaurants?fields[0]=name&fields[1]=description"
+  path="/api/restaurants"
   title="Return only name and description fields"
   description="Use the fields parameter to select only specific fields in the response."
   codeTabs={[
@@ -162,8 +161,7 @@ Top-level pagination parameters (e.g., `pagination[page]` and `pagination[pageSi
 
 <Endpoint
   method="GET"
-  path="/api/articles?fields[0]=title&fields[1]=slug&populate[headerImage][fields][0]=name&populate[headerImage][fields][1]=url"
-  codePath="/api/articles?fields[0]=title&fields[1]=slug&populate[headerImage][fields][0]=name&populate[headerImage][fields][1]=url"
+  path="/api/articles"
   title="Populate with field selection"
   description="Combine fields and populate parameters to select specific fields on both the main entry and its relations."
   codeTabs={[
@@ -222,8 +220,7 @@ await request(\`/api/articles?\${query}\`);`,
 
 <Endpoint
   method="GET"
-  path="/api/articles?populate[categories][sort][0]=name%3Aasc&populate[categories][filters][name][$eq]=Cars"
-  codePath="/api/articles?populate[categories][sort][0]=name%3Aasc&populate[categories][filters][name][$eq]=Cars"
+  path="/api/articles"
   title="Populate with filtering"
   description="Combine populate with sort and filter parameters to refine which related entries are returned."
   codeTabs={[

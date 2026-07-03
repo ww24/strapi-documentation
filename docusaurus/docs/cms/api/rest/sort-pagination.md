@@ -57,8 +57,7 @@ You can sort by multiple fields by passing fields in a `sort` array.
 <Endpoint
   id="sort-using-2-fields"
   method="GET"
-  path="/api/restaurants?sort[0]=Description&sort[1]=Name"
-  codePath="/api/restaurants?sort[0]=Description&sort[1]=Name"
+  path="/api/restaurants"
   title="Sort using 2 fields"
   description="Sort results by Description and Name fields."
   codeTabs={[
@@ -135,8 +134,7 @@ Using the `sort` parameter and defining `:asc` or  `:desc` on sorted fields, you
 <Endpoint
   id="sort-using-2-fields-and-set-the-order"
   method="GET"
-  path="/api/restaurants?sort[0]=Description:asc&sort[1]=Name:desc"
-  codePath="/api/restaurants?sort[0]=Description:asc&sort[1]=Name:desc"
+  path="/api/restaurants"
   title="Sort using 2 fields and set the order"
   description="Sort results by Description ascending and Name descending."
   codeTabs={[
@@ -229,8 +227,7 @@ To paginate results by page, use the following parameters:
 
 <Endpoint
   method="GET"
-  path="/api/articles?pagination[page]=1&pagination[pageSize]=10"
-  codePath="/api/articles?pagination[page]=1&pagination[pageSize]=10"
+  path="/api/articles"
   title="Pagination by page"
   description="Return only 10 entries on page 1."
   codeTabs={[
@@ -290,8 +287,7 @@ The default and maximum values for `pagination[limit]` can be [configured in the
 
 <Endpoint
   method="GET"
-  path="/api/articles?pagination[start]=0&pagination[limit]=10"
-  codePath="/api/articles?pagination[start]=0&pagination[limit]=10"
+  path="/api/articles"
   title="Pagination by offset"
   description="Return only the first 10 entries using offset."
   codeTabs={[
