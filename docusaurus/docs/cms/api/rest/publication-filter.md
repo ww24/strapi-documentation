@@ -89,10 +89,14 @@ This parameter combination works only on a given locale; to find these documents
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?status=draft&publicationFilter=never-published"
+  path="/api/restaurants"
   title="Get draft restaurants that have never been published for their locale"
   description="Return the drafts that have never been published for their locale."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?status=draft&publicationFilter=never-published`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -140,10 +144,14 @@ A document counts as published as soon as one of its locales is published: the d
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?status=draft&publicationFilter=never-published-document"
+  path="/api/restaurants"
   title="Get drafts of restaurants never published in any locale"
   description="Return the drafts of documents never published in any locale."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?status=draft&publicationFilter=never-published-document`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -191,10 +199,14 @@ For instance, with `status=draft`, the query returns the draft versions:
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?status=draft&publicationFilter=modified"
+  path="/api/restaurants"
   title="Get the draft versions of modified restaurants"
   description="Return the draft versions of documents with unpublished changes."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?status=draft&publicationFilter=modified`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -239,10 +251,14 @@ With `status=published` (the REST default), the same query returns the currently
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?publicationFilter=modified"
+  path="/api/restaurants"
   title="Get the currently live version of modified restaurants"
   description="Return the currently live versions of documents with unpublished changes."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?publicationFilter=modified`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -289,10 +305,14 @@ For instance, with `status=draft`, the query returns the draft versions:
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?status=draft&publicationFilter=unmodified"
+  path="/api/restaurants"
   title="Get the draft versions of unmodified restaurants"
   description="Return the draft versions of documents unchanged since their last publication."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?status=draft&publicationFilter=unmodified`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -337,10 +357,14 @@ With `status=published` (the REST default), the same query returns the currently
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?publicationFilter=unmodified"
+  path="/api/restaurants"
   title="Get the currently live version of unmodified restaurants"
   description="Return the currently live versions of documents unchanged since their last publication."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?publicationFilter=unmodified`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -385,10 +409,14 @@ await request(\`/api/restaurants?\${query}\`);`
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?publicationFilter=published-without-draft"
+  path="/api/restaurants"
   title="Get published restaurants with no draft for the same locale"
   description="Return published documents with no matching draft version for the same locale."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?publicationFilter=published-without-draft`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -433,10 +461,14 @@ await request(\`/api/restaurants?\${query}\`);`
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?publicationFilter=published-with-draft"
+  path="/api/restaurants"
   title="Get published restaurants that also have a draft for the same locale"
   description="Return published documents that also have a matching draft version for the same locale."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?publicationFilter=published-with-draft`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -483,10 +515,14 @@ For instance, with `status=draft`, the query returns the draft versions:
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?status=draft&publicationFilter=has-published-version"
+  path="/api/restaurants"
   title="Get the draft versions of restaurants that also have a published version"
   description="Return the draft versions of documents that also have a published version for the same locale."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?status=draft&publicationFilter=has-published-version`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -531,10 +567,14 @@ With `status=published` (the REST default), the same query returns the currently
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?publicationFilter=has-published-version"
+  path="/api/restaurants"
   title="Get the currently live version of restaurants that also have a draft"
   description="Return the currently live versions of documents that also have a published version for the same locale."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?publicationFilter=has-published-version`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
@@ -579,10 +619,14 @@ await request(\`/api/restaurants?\${query}\`);`
 
 <Endpoint
   method="GET"
-  path="/api/restaurants?status=draft&publicationFilter=has-published-version-document"
+  path="/api/restaurants"
   title="Get the drafts of restaurants published in at least one locale"
   description="Return the draft versions of documents published in at least one locale."
   codeTabs={[
+    {
+      label: "cURL",
+      code: `GET /api/restaurants?status=draft&publicationFilter=has-published-version-document`
+    },
     {
       label: "JavaScript",
       code: `const qs = require('qs');
