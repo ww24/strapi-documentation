@@ -42,14 +42,14 @@ The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled o
 | `has-published-version` | Documents that have both a draft and a published version |
 | `modified` | Documents whose draft was edited since it was last published |
 | `unmodified` | Documents whose draft has not changed since it was last published |
-| `published-without-draft` | Published entries with no draft counterpart |
-| `published-with-draft` | Published entries that also have a draft |
+| `published-without-draft` | Published documents with no draft counterpart |
+| `published-with-draft` | Published documents that also have a draft |
 | `never-published-document` | Documents never published in any locale |
 | `has-published-version-document` | Documents published in at least one locale<br/>(useful when [i18n](/cms/features/internationalization) is enabled) |
 
 For detailed examples of how to use the `publicationFilter` values, including with the `status` parameter, see the [possible use cases](#use-cases) table.
 
-:::note Notes
+:::note
 * Unknown values raise a validation error. 
 * Values ending in `-document` consider all locales of a document, which matters when [Internationalization (i18n)](/cms/features/internationalization) is enabled: for example, `never-published-document` excludes a document as soon as one of its locales is published. All other values consider one locale at a time. Without i18n, both variants behave the same.
 :::
@@ -125,7 +125,7 @@ This parameter combination works only on a given locale; to find these documents
 
 `publicationFilter: never-published-document` returns documents that have never been published in any locale. It looks at the whole document across all its locales, not one locale at a time.  To find these documents for a given locale only, [use `never-published`](#never-published) instead.
 
-A document counts as published as soon as one of its locales is published: the document is then left out, even the locales that only exist as a draft. The example below returns the draft rows of documents that were never published anywhere:
+A document counts as published as soon as one of its locales is published: the document is then left out, even the locales that only exist as a draft. The example below returns the draft versions of documents that were never published anywhere:
 
 <Endpoint
   kind="js"
@@ -159,7 +159,7 @@ A document counts as published as soon as one of its locales is published: the d
   ]}
 />
 
-:::note Note: Content Manager mapping
+:::note Content Manager mapping
 In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`).
 :::
 
@@ -167,13 +167,13 @@ In the Content Manager, the **Draft (never published)** list filter maps to `sta
 
 `publicationFilter: modified` selects documents whose draft has modified but unpublished changes. `status` then decides which version of those documents you get back.
 
-For instance, with `status: 'draft'`, the query returns the pending draft versions:
+For instance, with `status: 'draft'`, the query returns the draft versions:
 
 <Endpoint
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'modified' and status: 'draft'"
-  description="Return the pending draft version of documents with unpublished changes."
+  description="Return the draft versions of documents with unpublished changes."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -319,7 +319,7 @@ With `status: 'published'`, the same query returns the currently live version of
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'published-without-draft'"
-  description="Return published entries with no matching draft version for the same locale."
+  description="Return published documents with no matching draft version for the same locale."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -357,7 +357,7 @@ With `status: 'published'`, the same query returns the currently live version of
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'published-with-draft'"
-  description="Return published entries that also have a matching draft version for the same locale."
+  description="Return published documents that also have a matching draft version for the same locale."
   codeTabs={[
     {
       label: 'JavaScript',
@@ -387,7 +387,7 @@ With `status: 'published'`, the same query returns the currently live version of
 
 ### Find documents with a published version {#has-published-version}
 
-`publicationFilter: has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). `status` then decides which version of those documents you get back.
+`publicationFilter: has-published-version` selects documents that have both a draft and a published version for the same locale. `status` then decides which version of those documents you get back. Unlike `published-without-draft`, it excludes published documents that have no draft counterpart.
 
 For instance, with `status: 'draft'`, the query returns the draft versions:
 
@@ -430,7 +430,7 @@ With `status: 'published'`, the same query returns the currently live version of
   kind="js"
   path="strapi.documents().findMany()"
   title="findMany() with publicationFilter: 'has-published-version' and status: 'published'"
-  description="Return the currently live versions of documents that also have a draft for the same locale."
+  description="Return the currently live versions of documents that also have a published version for the same locale."
   codeTabs={[
     {
       label: 'JavaScript',
