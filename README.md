@@ -37,7 +37,7 @@ Additional official Strapi documentation websites cover different content:
 
 The following are required if you are submitting pull requests to the documentation:
 
-- NodeJS >=18.15.0 <=22.x.x
+- NodeJS >20.x.x <=24.x.x
 - NPM >= 6.x
 - Yarn >= 1.22.x
 
@@ -86,3 +86,5 @@ This project and everyone participating in it are governed by the [Strapi Code o
 ## Package version
 
 Please note that, starting with Strapi 5, strapi/documentation, and strapi/strapi package version numbers are not synchronized any more. Strapi Docs are treated as their own product and will follow their own numbering system.
+
+
