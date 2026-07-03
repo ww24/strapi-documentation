@@ -39,12 +39,12 @@ The [Draft & Publish](/cms/features/draft-and-publish) feature must be enabled o
 | Value | Selects |
 | ----- | ------- |
 | `never-published` | Documents never published in a given locale |
-| `has-published-version` | Documents that have both a draft and a published version |
+| `never-published-document` | Documents never published in any locale |
 | `modified` | Documents whose draft was edited since it was last published |
 | `unmodified` | Documents whose draft has not changed since it was last published |
 | `published-without-draft` | Published documents with no draft counterpart |
 | `published-with-draft` | Published documents that also have a draft |
-| `never-published-document` | Documents never published in any locale |
+| `has-published-version` | Documents that have both a draft and a published version |
 | `has-published-version-document` | Documents published in at least one locale<br/>(useful when [i18n](/cms/features/internationalization) is enabled) |
 
 For detailed examples of how to use the `publicationFilter` values, including with the `status` parameter, see the [possible use cases](#use-cases) table.
