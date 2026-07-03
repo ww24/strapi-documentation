@@ -54,10 +54,15 @@ To select documents by how their draft and published versions relate (never-publ
 <Endpoint
   id="get-draft-versions"
   method="GET"
-  path="/api/articles?status=draft"
+  path="/api/articles"
   title="Get draft versions of restaurants"
   description="Returns draft versions of documents by passing the status=draft query parameter."
   codeTabs={[
+    {
+      label: 'cURL',
+      code: `curl 'http://localhost:1337/api/articles?status=draft' \\
+  -H 'Authorization: Bearer <token>'`,
+    },
     {
       label: 'JavaScript',
       code: `const qs = require('qs');
