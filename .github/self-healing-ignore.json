@@ -674,6 +674,21 @@
       "number": 26848,
       "reason": "Router: Internal validation logic fix in core/utils package. Tightens internal validation function (validateMorphLikeNestedPopulate) without exposing new public APIs or user-facing features. This is utility-level validation that developers don't directly interact with. No user-facing documentation updates needed.",
       "added": "2026-07-02"
+    },
+    {
+      "number": 26756,
+      "reason": "Router: Internal admin build system regression fix (Redux module resolution in monorepos). No public API or user-facing behavior changes.",
+      "added": "2026-07-03"
+    },
+    {
+      "number": 26750,
+      "reason": "Router: Internal plugin generator bug fix. Resolves language detection for TypeScript vs JavaScript plugin templates when using programmatic API. No changes to public-facing plugin development workflow or CLI interface.",
+      "added": "2026-07-03"
+    },
+    {
+      "number": 26728,
+      "reason": "Router: Internal admin UI fix aligning over-seat-limit notification CTAs with existing billing surfaces. Updates links to billing.strapi.io and sales@strapi.io. No user-facing behavior changes; internal alignment only.",
+      "added": "2026-07-03"
     }
   ]
 }
