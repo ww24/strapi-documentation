@@ -63,14 +63,14 @@ The following table lists many possible use cases, illustrating how the `status`
 
 | I want to… | Use `status` as… | Use `publicationFilter` as… |
 | ---------- | ------------------ | ----------------------------- |
-| [Find never published drafts](#never-published-example) | `draft` | `never-published` |
-| [Find drafts never published in any locale](#document-scoped) | `draft` | `never-published-document` |
+| [Find never published drafts](#never-published) | `draft` | `never-published` |
+| [Find drafts never published in any locale](#never-published-document) | `draft` | `never-published-document` |
 | [Find modified documents](#modified) | `draft` or `published` | `modified` |
-| [Find unmodified documents](#unmodified-example) | `draft` or `published` | `unmodified` |
-| [Find published documents without a draft](#published-without-draft-example) | `published` | `published-without-draft` |
-| [Find published documents with a draft](#published-with-draft-example) | `published` | `published-with-draft` |
-| [Find documents with a published version](#has-published-version-example) | `draft` or `published` | `has-published-version` |
-| [Find documents published in at least one locale](#has-published-version-document-example) | `draft` or `published` | `has-published-version-document` |
+| [Find unmodified documents](#unmodified) | `draft` or `published` | `unmodified` |
+| [Find published documents without a draft](#published-without-draft) | `published` | `published-without-draft` |
+| [Find published documents with a draft](#published-with-draft) | `published` | `published-with-draft` |
+| [Find documents with a published version](#has-published-version) | `draft` or `published` | `has-published-version` |
+| [Find documents published in at least one locale](#has-published-version-document) | `draft` or `published` | `has-published-version-document` |
 | [Use with `findOne()` and `findFirst()`](#find-one-find-first) | `draft` or `published` | any value |
 | [Count only matching documents](#count) | `draft` or `published` | any value |
 
