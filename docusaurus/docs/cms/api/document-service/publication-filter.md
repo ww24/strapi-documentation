@@ -64,7 +64,7 @@ The following table lists many possible use cases, illustrating how the `status`
 | I want to… | Use `status` as… | Use `publicationFilter` as… |
 | ---------- | ------------------ | ----------------------------- |
 | [Find never published drafts](#never-published-example) | `draft` | `never-published` |
-| [Find documents never published in any locale](#document-scoped) | `draft` | `never-published-document` |
+| [Find drafts never published in any locale](#document-scoped) | `draft` | `never-published-document` |
 | [Find modified documents](#modified) | `draft` or `published` | `modified` |
 | [Find unmodified documents](#unmodified-example) | `draft` or `published` | `unmodified` |
 | [Find published documents without a draft](#published-without-draft-example) | `published` | `published-without-draft` |
@@ -82,9 +82,11 @@ Pairing a value with the opposite `status` from the table above is valid but ret
 
 The following section lists the most common use cases summed up in the [table](#use-cases) above.
 
-### Find never published drafts {#never-published-example}
+### Find never published drafts {#never-published}
 
-One of the most common use cases is to find the drafts that have never been published. To do so, pass:
+One of the most common use cases is to find the drafts that have never been published. To do so, pass `status: 'draft'` and `publicationFilter: 'never-published'`.
+
+This parameter combination works only on a given locale; to find these documents across all locales, [use `never-published-document`](#never-published-document) instead.
 
 - `status: 'draft'` (so you read the draft row)
 - and `publicationFilter: 'never-published'` (so you only keep documents with no published version):
@@ -123,7 +125,7 @@ One of the most common use cases is to find the drafts that have never been publ
 
 <br/>
 
-### Find documents never published in any locale {#document-scoped}
+### Find drafts never published in any locale {#never-published-document}
 
 `publicationFilter: never-published-document` considers all locales, so a multi-locale document with even one published locale is excluded entirely, including its draft-only locales:
 
@@ -231,7 +233,7 @@ With `status: 'published'`, the same query returns the currently live version of
   ]}
 />
 
-### Find unmodified documents {#unmodified-example}
+### Find unmodified documents {#unmodified}
 
 `publicationFilter: unmodified` selects documents whose draft has not changed since it was last published (the draft row's `updatedAt` is not more recent than the published row's). It returns rows with either `status`; the example below returns the draft rows.
 
@@ -267,7 +269,7 @@ With `status: 'published'`, the same query returns the currently live version of
   ]}
 />
 
-### Find published documents without a draft {#published-without-draft-example}
+### Find published documents without a draft {#published-without-draft}
 
 `publicationFilter: published-without-draft` describes published rows, so it requires `status: 'published'`:
 
@@ -303,7 +305,7 @@ With `status: 'published'`, the same query returns the currently live version of
   ]}
 />
 
-### Find published documents with a draft {#published-with-draft-example}
+### Find published documents with a draft {#published-with-draft}
 
 `publicationFilter: published-with-draft` also describes published rows and requires `status: 'published'`:
 
@@ -339,7 +341,7 @@ With `status: 'published'`, the same query returns the currently live version of
   ]}
 />
 
-### Find documents with a published version {#has-published-version-example}
+### Find documents with a published version {#has-published-version}
 
 `publicationFilter: has-published-version` selects documents that have both a draft and a published version for the same locale (it excludes published entries that have no draft counterpart). It returns rows with either `status`; the example below returns the draft rows.
 
@@ -375,7 +377,7 @@ With `status: 'published'`, the same query returns the currently live version of
   ]}
 />
 
-### Find documents published in at least one locale {#has-published-version-document-example}
+### Find documents published in at least one locale {#has-published-version-document}
 
 `publicationFilter: has-published-version-document` considers all locales, so it matches a document as soon as one of its locales is published. With `status: 'draft'`, it returns the draft rows of every locale of those documents, including locales that were never published themselves:
 
@@ -457,5 +459,5 @@ const neverPublishedCount = await strapi
 `publicationFilter` is combined with other query parameters as a logical `AND`, including [`filters`](/cms/api/document-service/filters) and [`populate`](/cms/api/document-service/populate). When populating draft & publish relations, nested queries inherit the same filter logic.
 
 :::note Note: Content Manager mapping
-In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`). 
+In the Content Manager, the **Draft (never published)** list filter maps to `status: 'draft'` and `publicationFilter: 'never-published-document'` (document-scoped, not the per-locale `never-published`).
 :::
