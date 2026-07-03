@@ -54,7 +54,8 @@ To select documents by how their draft and published versions relate (never-publ
 <Endpoint
   id="get-draft-versions"
   method="GET"
-  path="/api/articles"
+  path="/api/articles?status=draft"
+  codePath="/api/articles?status=draft"
   title="Get draft versions of restaurants"
   description="Returns draft versions of documents by passing the status=draft query parameter."
   codeTabs={[
