@@ -7165,44 +7165,24 @@ File path: N/A
 ```
 
 
-## Configuration
-Description: Add an openapi key to the server configuration:
-(Source: https://docs.strapi.io/cms/api/openapi#configuration)
+## HTTP endpoint access
+Description: The following example exposes both endpoints:
+(Source: https://docs.strapi.io/cms/api/openapi#http-endpoint-access)
 
 Language: JavaScript
 File path: /config/server.js
 
 ```js
-module.exports = ({ env }) => ({
-  host: env('HOST', '0.0.0.0'),
-  port: env.int('PORT', 1337),
-  // highlight-start
+module.exports = {
   openapi: {
     'content-api': {
       access: 'public',
-      route: {
-        path: '/openapi.json',
-      },
-      cache: {
-        enabled: true,
-        maxAgeMs: 60000,
-        filePath: '.strapi/openapi/content-api.json',
-      },
     },
     admin: {
       access: 'authenticated',
-      route: {
-        path: '/openapi.json',
-      },
-      cache: {
-        enabled: true,
-        maxAgeMs: 60000,
-        filePath: '.strapi/openapi/admin.json',
-      },
     },
   },
-  // highlight-end
-});
+};
 ```
 
 ---
@@ -7210,36 +7190,16 @@ Language: TypeScript
 File path: /config/server.ts
 
 ```ts
-export default ({ env }) => ({
-  host: env('HOST', '0.0.0.0'),
-  port: env.int('PORT', 1337),
-  // highlight-start
+export default {
   openapi: {
     'content-api': {
       access: 'public',
-      route: {
-        path: '/openapi.json',
-      },
-      cache: {
-        enabled: true,
-        maxAgeMs: 60000,
-        filePath: '.strapi/openapi/content-api.json',
-      },
     },
     admin: {
       access: 'authenticated',
-      route: {
-        path: '/openapi.json',
-      },
-      cache: {
-        enabled: true,
-        maxAgeMs: 60000,
-        filePath: '.strapi/openapi/admin.json',
-      },
     },
   },
-  // highlight-end
-});
+};
 ```
 
 
