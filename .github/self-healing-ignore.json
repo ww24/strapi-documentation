@@ -689,6 +689,11 @@
       "number": 26728,
       "reason": "Router: Internal admin UI fix aligning over-seat-limit notification CTAs with existing billing surfaces. Updates links to billing.strapi.io and sales@strapi.io. No user-facing behavior changes; internal alignment only.",
       "added": "2026-07-03"
+    },
+    {
+      "number": 26358,
+      "reason": "Router: Internal Documentation plugin fix for OpenAPI schema generation. Updates the Swagger schema metadata for the populate parameter but does not change user-facing API behavior or require user documentation updates.",
+      "added": "2026-07-04"
     }
   ]
 }
